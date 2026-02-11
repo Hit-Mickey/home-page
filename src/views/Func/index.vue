@@ -65,10 +65,10 @@ onBeforeUnmount(() => {
   height: auto;
 
   // --- 修改 2: 使用 margin-top 让模块整体下移 (数值可根据需要调整) ---
-  margin-top: 12vh;
+  margin-top: 30vh;
 
   // --- 修改 3: 压缩模块底部的外边距，缩短与下方服务器模块的间隔 ---
-  margin-bottom: -40px;
+  margin-bottom: 0px;
 
   display: flex;
   flex-direction: row;
