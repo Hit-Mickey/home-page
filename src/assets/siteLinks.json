@@ -1,37 +1,42 @@
-[
-  {
-    "icon": "Blog",
-    "name": "博客",
-    "ipv4": "https://blog.imsyy.top/"
-  },
-  {
-    "icon": "Cloud",
-    "name": "网盘",
-    "ipv4": "https://pan.imsyy.top/"
-  },
-  {
-    "icon": "CompactDisc",
-    "name": "音乐",
-    "ipv4": "https://music.imsyy.top/"
-  },
-  {
-    "icon": "Compass",
-    "name": "起始页",
-    "ipv4": "https://nav.imsyy.top/"
-  },
-  {
-    "icon": "Book",
-    "name": "网址集",
-    "ipv4": "https://web.imsyy.top/"
-  },
-  {
-    "icon": "Fire",
-    "name": "今日热榜",
-    "ipv4": "https://hot.imsyy.top/"
-  },
-  {
-    "icon": "LaptopCode",
-    "name": "站点监测",
-    "ipv4": "https://status.imsyy.top/"
-  }
-]
+{
+  "home": [
+    {
+      "icon": "Blog",
+      "name": "NAS 存储",
+      "link": "https://nas.example.com",
+      "ipv4": "http://192.168.1.10:5000",
+      "ipv6": "",
+      "vlan": "",
+      "intranet": "http://10.0.0.1:5000"
+    },
+    {
+      "icon": "Cloud",
+      "name": "家庭 路由",
+      "link": "https://router.example.com",
+      "ipv4": "http://192.168.1.1",
+      "ipv6": "",
+      "vlan": "",
+      "intranet": ""
+    }
+  ],
+  "cloud": [
+    {
+      "icon": "Compass",
+      "name": "雨云 面板",
+      "link": "https://app.rainyun.com",
+      "ipv4": "",
+      "ipv6": "",
+      "vlan": "",
+      "intranet": ""
+    },
+    {
+      "icon": "LaptopCode",
+      "name": "个人博客",
+      "link": "https://blog.example.com",
+      "ipv4": "http://1.1.1.1",
+      "ipv6": "",
+      "vlan": "",
+      "intranet": ""
+    }
+  ]
+}

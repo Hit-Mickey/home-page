@@ -1,103 +1,121 @@
 <template>
-  <div v-if="siteLinks[0]" class="links">
-    <div class="line">
-      <Icon size="20">
-        <Link />
-      </Icon>
-      <span class="title">网站列表</span>
-    </div>
-    <Swiper v-if="siteLinks[0]" :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
-      :pagination="{
-        el: '.swiper-pagination',
-        clickable: true,
-        bulletElement: 'div',
-      }" :mousewheel="true">
-      <SwiperSlide v-for="(site, index) in siteLinksList" :key="index">
-        <el-row class="link-all" :gutter="20">
-          <el-col v-for="item in site" :span="8" :key="item.name">
-            <div class="item cards" :style="index < 3 ? 'margin-bottom: 20px' : null">
-              <div class="main-content" @click="jumpLink(item)">
-                <Icon size="26">
-                  <component :is="siteIcon[item.icon]" />
-                </Icon>
-                <span class="name text-hidden">{{ item.name }}</span>
-              </div>
+  <div class="links">
+    <div v-if="homeLinksList.length > 0" class="section-wrapper">
+      <div class="line">
+        <Icon size="20">
+          <Home />
+        </Icon>
+        <span class="title">家庭服务器</span>
+      </div>
 
-              <div class="network-tags">
-                <a v-if="item.ipv6" :href="item.ipv6" target="_blank" class="tag ipv6" @click.stop>v6</a>
-                <a v-if="item.ipv4" :href="item.ipv4" target="_blank" class="tag ipv4" @click.stop>v4</a>
-                <a v-if="item.vlan" :href="item.vlan" target="_blank" class="tag vlan" @click.stop>VLAN</a>
-                <a v-if="item.intranet" :href="item.intranet" target="_blank" class="tag intra" @click.stop>内网</a>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-      </SwiperSlide>
-      <div class="swiper-pagination" />
-    </Swiper>
+      <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
+        :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
+        <SwiperSlide v-for="(page, index) in homeLinksList" :key="'home-' + index">
+          <el-row class="link-all" :gutter="20">
+            <el-col v-for="item in page" :span="8" :key="item.name">
+              <LinkItem :item="item" />
+            </el-col>
+          </el-row>
+        </SwiperSlide>
+      </Swiper>
+    </div>
+
+    <div v-if="cloudLinksList.length > 0" class="section-wrapper">
+      <div class="line">
+        <Icon size="20">
+          <Cloud />
+        </Icon>
+        <span class="title">雨云服务器</span>
+      </div>
+
+      <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
+        :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
+        <SwiperSlide v-for="(page, index) in cloudLinksList" :key="'cloud-' + index">
+          <el-row class="link-all" :gutter="20">
+            <el-col v-for="item in page" :span="8" :key="item.name">
+              <LinkItem :item="item" />
+            </el-col>
+          </el-row>
+        </SwiperSlide>
+      </Swiper>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { computed, defineComponent, h } from "vue";
 import { Icon } from "@vicons/utils";
-// 可前往 https://www.xicons.org 自行挑选并在此处引入
 import {
-  Link,
-  Blog,
-  CompactDisc,
-  Cloud,
-  Compass,
-  Book,
-  Fire,
-  LaptopCode,
-} from "@vicons/fa"; // 注意使用正确的类别
+  Link, Blog, CompactDisc, Cloud, Compass, Book, Fire, LaptopCode, Home
+} from "@vicons/fa";
 import { mainStore } from "@/store";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Mousewheel } from "swiper/modules";
-import { computed, onMounted } from "vue"; // 补充引入 computed 和 onMounted
-import siteLinks from "@/assets/siteLinks.json";
+import siteLinksData from "@/assets/siteLinks.json"; // 导入新的 JSON 数据
 
 const store = mainStore();
 
-// 计算网站链接
-const siteLinksList = computed(() => {
+// 图标映射
+const siteIcon = {
+  Blog, Cloud, CompactDisc, Compass, Book, Fire, LaptopCode, Home
+};
+
+// --- 子组件：提取单个卡片逻辑以复用代码 ---
+const LinkItem = defineComponent({
+  props: ['item'],
+  setup(props) {
+    const jumpLink = (data) => {
+      if (data.name === "音乐" && store.musicClick) {
+        if (typeof $openList === "function") $openList();
+      } else {
+        window.open(data.link, "_blank");
+      }
+    };
+
+    return () => h('div', { class: 'item cards', onClick: () => jumpLink(props.item) }, [
+      // 主内容
+      h('div', { class: 'main-content' }, [
+        h(Icon, { size: 26 }, () => h(siteIcon[props.item.icon] || Link)),
+        h('span', { class: 'name text-hidden' }, props.item.name)
+      ]),
+      // 网络标签
+      h('div', { class: 'network-tags' }, [
+        props.item.ipv6 ? h('a', { href: props.item.ipv6, target: '_blank', class: 'tag ipv6', onClick: (e) => e.stopPropagation() }, 'v6') : null,
+        props.item.ipv4 ? h('a', { href: props.item.ipv4, target: '_blank', class: 'tag ipv4', onClick: (e) => e.stopPropagation() }, 'v4') : null,
+        props.item.vlan ? h('a', { href: props.item.vlan, target: '_blank', class: 'tag vlan', onClick: (e) => e.stopPropagation() }, 'VLAN') : null,
+        props.item.lan ? h('a', { href: props.item.lan, target: '_blank', class: 'tag lan', onClick: (e) => e.stopPropagation() }, '内网') : null,
+      ])
+    ]);
+  }
+});
+
+// --- 数据处理逻辑 ---
+// 通用函数：将数组切分为每页 6 个
+const chunkData = (arr) => {
   const result = [];
-  for (let i = 0; i < siteLinks.length; i += 6) {
-    const subArr = siteLinks.slice(i, i + 6);
-    result.push(subArr);
+  if (!arr) return result;
+  for (let i = 0; i < arr.length; i += 6) {
+    result.push(arr.slice(i, i + 6));
   }
   return result;
-});
-
-// 网站链接图标
-const siteIcon = {
-  Blog,
-  Cloud,
-  CompactDisc,
-  Compass,
-  Book,
-  Fire,
-  LaptopCode,
 };
 
-// 链接跳转
-const jumpLink = (data) => {
-  if (data.name === "音乐" && store.musicClick) {
-    if (typeof $openList === "function") $openList();
-  } else {
-    window.open(data.link, "_blank");
-  }
-};
+// 分别计算两个列表
+const homeLinksList = computed(() => chunkData(siteLinksData.home));
+const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
-onMounted(() => {
-  console.log(siteLinks);
-});
 </script>
 
 <style lang="scss" scoped>
 .links {
+
+  // 每个版块的包装容器，增加底部间距
+  .section-wrapper {
+    margin-bottom: 30px;
+  }
+
   .line {
-    margin: 2rem 0.25rem 1rem;
+    margin: 1rem 0.25rem 1rem; // 稍微调整了上边距
     font-size: 1.1rem;
     display: flex;
     align-items: center;
@@ -110,16 +128,14 @@ onMounted(() => {
     }
   }
 
+  // 这里的 Swiper 样式保持不变
   .swiper {
     left: -10px;
     width: calc(100% + 20px);
     padding: 5px 10px 0;
     z-index: 0;
 
-    .swiper-slide {
-      height: 100%;
-    }
-
+    // 如果一个版块内容很少，不显示分页器，可以隐藏它 (可选)
     .swiper-pagination {
       margin-top: 12px;
       display: flex;
@@ -148,18 +164,21 @@ onMounted(() => {
   }
 
   .link-all {
-    height: 240px; // 稍微增加高度以容纳按钮
+    // 高度需要适配内容，避免重叠
+    height: 240px;
 
-    .item {
-      height: 110px; // 增加卡片高度
+    // 使用 :deep 穿透到子组件 LinkItem 的样式
+    :deep(.item) {
+      height: 110px;
       width: 100%;
       display: flex;
-      flex-direction: column; // 改为纵向排列
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 6px 10px;
       animation: fade 0.5s;
       position: relative;
+      margin-bottom: 20px; // 确保每行卡片有间距
 
       &:hover {
         transform: scale(1.02);
@@ -167,18 +186,13 @@ onMounted(() => {
         transition: 0.3s;
       }
 
-      &:active {
-        transform: scale(1);
-      }
-
-      // 主体内容样式
       .main-content {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
         cursor: pointer;
-        margin-bottom: 8px; // 与下方按钮的间距
+        margin-bottom: 8px;
 
         .name {
           font-size: 1.1rem;
@@ -186,16 +200,15 @@ onMounted(() => {
         }
       }
 
-      // 网络标签组样式
       .network-tags {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 6px; // 按钮之间的间距
+        gap: 6px;
         width: 100%;
 
         .tag {
-          font-size: 0.7rem; // 字体改小
+          font-size: 12px; // 这里就是你之前调整的字体大小
           padding: 2px 6px;
           border-radius: 4px;
           text-decoration: none;
@@ -208,26 +221,25 @@ onMounted(() => {
             opacity: 0.8;
           }
 
-          // 定义不同类型的颜色
           &.ipv6 {
-            background-color: #67c23a; // 绿色
+            background-color: #67c23a;
           }
 
           &.ipv4 {
-            background-color: #409eff; // 蓝色
+            background-color: #409eff;
           }
 
           &.vlan {
-            background-color: #e6a23c; // 橙色
+            background-color: #e6a23c;
           }
 
-          &.intra {
-            background-color: #909399; // 灰色
+          &.lan {
+            background-color: #909399;
           }
         }
       }
 
-      // 媒体查询适配
+      // 媒体查询
       @media (min-width: 720px) and (max-width: 820px) {
         .name {
           display: none;
@@ -235,7 +247,7 @@ onMounted(() => {
       }
 
       @media (max-width: 720px) {
-        height: 100px; // 移动端稍微小一点
+        height: 100px;
 
         .main-content {
           margin-bottom: 4px;
@@ -244,7 +256,7 @@ onMounted(() => {
 
       @media (max-width: 460px) {
         .main-content {
-          flex-direction: column; // 极小屏幕图标和文字竖排
+          flex-direction: column;
 
           .name {
             font-size: 1rem;
@@ -253,10 +265,6 @@ onMounted(() => {
           }
         }
       }
-    }
-
-    @media (max-width: 720px) {
-      height: 200px;
     }
   }
 }
