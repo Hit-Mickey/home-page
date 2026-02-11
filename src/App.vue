@@ -62,24 +62,23 @@
 </template>
 
 <script setup>
-import { helloInit, checkDays } from "@/utils/getTime.js";
+import { helloInit, checkDays } from "/utils/getTime.js";
 import { HamburgerButton, CloseSmall } from "@icon-park/vue-next";
-import { mainStore } from "@/store";
+import { mainStore } from "/store";
 import { Icon } from "@vicons/utils";
 import { onMounted, onBeforeUnmount, watch, nextTick } from "vue";
-import Loading from "@/components/Loading.vue";
-import Background from "@/components/Background.vue";
-import Footer from "@/components/Footer.vue";
-import Box from "@/views/Box/index.vue";
-import MoreSet from "@/views/MoreSet/index.vue";
-import cursorInit from "@/utils/cursor.js";
-import config from "@/../package.json";
+import Loading from "/components/Loading.vue";
+import Background from "/components/Background.vue";
+import Footer from "/components/Footer.vue";
+import Box from "/views/Box/index.vue";
+import MoreSet from "/views/MoreSet/index.vue";
+import cursorInit from "/utils/cursor.js";
 
 // 引入拆分出来的组件
-import Hitokoto from "@/components/Hitokoto/index.vue";
-import Weather from "@/components/Weather/index.vue";
-import SocialLinks from "@/components/SocialLinks/index.vue";
-import Links from "@/components/Links/index.vue";
+import Hitokoto from "/components/Hitokoto/index.vue";
+import Weather from "/components/Weather/index.vue";
+import SocialLinks from "/components/SocialLinks/index.vue";
+import Links from "/components/Links/index.vue";
 
 const store = mainStore();
 
