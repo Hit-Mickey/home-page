@@ -102,14 +102,22 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
 <style lang="scss" scoped>
 .links {
-  // 修改点2：让整个容器垂直居中
-  height: 100%;
+  // 修改核心：强制最小高度为 80vh，确保有足够空间来居中
+  min-height: 80vh;
+  width: 100%; // 确保宽度占满
   display: flex;
   flex-direction: column;
-  justify-content: center; // 垂直居中核心代码
+  justify-content: center; // 垂直居中
+
+  // 在移动端取消强制高度，避免布局溢出
+  @media (max-width: 720px) {
+    min-height: auto;
+    padding-top: 20px; // 移动端给一点顶部间距
+  }
 
   .section-wrapper {
     margin-bottom: 30px;
+    width: 100%; // 确保内容宽度正常
   }
 
   .line {
@@ -160,8 +168,11 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
   }
 
   .link-all {
-    height: 240px;
-    // 修改点3：让 Swiper 内部的内容也垂直居中
+    // 这里保持默认或根据内容自动撑开
+    // height: 240px; // 如果内容较少，可以去掉固定高度，或者保留
+    min-height: 240px; // 改为 min-height 防止内容被截断
+
+    // 内容垂直居中
     display: flex;
     align-content: center;
     flex-wrap: wrap;
@@ -206,7 +217,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         width: 100%;
 
         .tag {
-          font-size: 12px;
+          font-size: 16px;
           padding: 2px 6px;
           border-radius: 4px;
           text-decoration: none;
@@ -219,7 +230,6 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
             opacity: 0.8;
           }
 
-          // 恢复了颜色样式，如果你不需要可以再次注释掉
           // &.ipv6 {
           //   background-color: #67c23a;
           // }

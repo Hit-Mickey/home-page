@@ -12,12 +12,6 @@
     "url": "https://qm.qq.com/q/eFUtxvkTny"
   },
   {
-    "name": "wechat",
-    "icon": "/images/icon/wechat.png",
-    "tip": "有什么事吗",
-    "url": "/images/wechat_qr.png"
-  },
-  {
     "name": "Email",
     "icon": "/images/icon/email.png",
     "tip": "来封 Email ~",
