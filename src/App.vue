@@ -76,10 +76,10 @@ import MoreSet from "@/views/MoreSet/index.vue";
 import cursorInit from "@/utils/cursor.js";
 
 // 引入拆分出来的组件
-import Hitokoto from "@/components/Hitokoto/index.vue";
-import Weather from "@/components/Weather/index.vue";
-import SocialLinks from "@/components/SocialLinks/index.vue";
-import Links from "@/components/Links/index.vue";
+import Hitokoto from "@/components/Hitokoto.vue";
+import Weather from "@/components/Weather.vue";
+import SocialLinks from "@/components/SocialLinks.vue";
+import Links from "@/components/Links.vue";
 
 const store = mainStore();
 
