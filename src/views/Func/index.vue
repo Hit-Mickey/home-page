@@ -33,7 +33,7 @@ import { mainStore } from "@/store";
 import Music from "@/components/Music.vue";
 import Hitokoto from "@/components/Hitokoto.vue";
 import Weather from "@/components/Weather.vue";
-import { ref, onMounted, onBeforeUnmount } from "vue"; // 确保引入 ref 等
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const store = mainStore();
 
@@ -61,7 +61,15 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .function {
-  height: 165px;
+  // --- 修改 1: 移除固定高度 165px，改为自适应 ---
+  height: auto;
+
+  // --- 修改 2: 使用 margin-top 让模块整体下移 (数值可根据需要调整) ---
+  margin-top: 50px;
+
+  // --- 修改 3: 压缩模块底部的外边距，缩短与下方服务器模块的间隔 ---
+  margin-bottom: 0px;
+
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -82,7 +90,6 @@ onBeforeUnmount(() => {
   }
 
   .el-row {
-    height: 100%;
     width: 100%;
     margin: 0 !important;
 
@@ -116,16 +123,15 @@ onBeforeUnmount(() => {
     }
 
     .right {
-      padding: 20px;
+      // --- 修改 4: 缩小内边距，让卡片更紧凑 ---
+      padding: 15px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
 
-      // --- 核心修改部分 ---
-      // 之前是 justify-content: space-between; 导致上下撑开
-      justify-content: center; // 改为垂直居中
-      gap: 15px; // 使用 gap 控制时间与天气之间的间距 (推荐 10px-20px)
-      // ------------------
+      // --- 修改 5: 进一步缩小时钟和天气文字之间的间距 ---
+      gap: 10px;
 
       animation: fade 0.5s;
 
@@ -140,7 +146,8 @@ onBeforeUnmount(() => {
         }
 
         .text {
-          margin-top: 10px;
+          // --- 修改 6: 稍微减小数字字体的间距 ---
+          margin-top: 5px;
           font-size: 3.25rem;
           letter-spacing: 2px;
           font-family: "UnidreamLED";
