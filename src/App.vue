@@ -1,31 +1,59 @@
 <template>
-  <!-- 加载 -->
   <Loading />
-  <!-- 壁纸 -->
   <Background @loadComplete="loadComplete" />
-  <!-- 主界面 -->
   <Transition name="fade" mode="out-in">
     <main id="main" v-if="store.imgLoadStatus">
       <div class="container" v-show="!store.backgroundShow">
         <section class="all" v-show="!store.setOpenState">
-          <MainLeft />
-          <MainRight v-show="!store.boxOpenState" />
-          <Box v-show="store.boxOpenState" />
+
+          <div class="layout-box">
+
+            <div class="left-col">
+              <div class="content-top">
+                <div class="logo-wrapper">
+                  <img src="/images/icon/logo.png" class="logo-img" alt="logo" />
+                  <div class="logo-text">
+                    <span class="title">Imsyy</span>
+                    <span class="subtitle">.top</span>
+                  </div>
+                </div>
+
+                <div class="card-wrapper">
+                  <Hitokoto />
+                </div>
+
+                <div class="card-wrapper">
+                  <Weather />
+                </div>
+              </div>
+
+              <div class="social-wrapper">
+                <SocialLinks />
+              </div>
+            </div>
+
+            <div class="right-col">
+              <div class="links-container" v-show="!store.boxOpenState">
+                <Links />
+              </div>
+
+              <Box v-show="store.boxOpenState" />
+            </div>
+
+          </div>
+
         </section>
+
         <section class="more" v-show="store.setOpenState" @click="store.setOpenState = false">
           <MoreSet />
         </section>
       </div>
-      <!-- 移动端菜单按钮 -->
-      <Icon
-        class="menu"
-        size="24"
-        v-show="!store.backgroundShow"
-        @click="store.mobileOpenState = !store.mobileOpenState"
-      >
+
+      <Icon class="menu" size="24" v-show="!store.backgroundShow"
+        @click="store.mobileOpenState = !store.mobileOpenState">
         <component :is="store.mobileOpenState ? CloseSmall : HamburgerButton" />
       </Icon>
-      <!-- 页脚 -->
+
       <Transition name="fade" mode="out-in">
         <Footer class="f-ter" v-show="!store.backgroundShow && !store.setOpenState" />
       </Transition>
@@ -38,15 +66,20 @@ import { helloInit, checkDays } from "@/utils/getTime.js";
 import { HamburgerButton, CloseSmall } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 import { Icon } from "@vicons/utils";
+import { onMounted, onBeforeUnmount, watch, nextTick } from "vue";
 import Loading from "@/components/Loading.vue";
-import MainLeft from "@/views/Main/Left.vue";
-import MainRight from "@/views/Main/Right.vue";
 import Background from "@/components/Background.vue";
 import Footer from "@/components/Footer.vue";
 import Box from "@/views/Box/index.vue";
 import MoreSet from "@/views/MoreSet/index.vue";
 import cursorInit from "@/utils/cursor.js";
 import config from "@/../package.json";
+
+// 引入拆分出来的组件
+import Hitokoto from "@/components/Hitokoto/index.vue";
+import Weather from "@/components/Weather/index.vue";
+import SocialLinks from "@/components/SocialLinks/index.vue";
+import Links from "@/components/Links/index.vue";
 
 const store = mainStore();
 
@@ -58,9 +91,7 @@ const getWidth = () => {
 // 加载完成事件
 const loadComplete = () => {
   nextTick(() => {
-    // 欢迎提示
     helloInit();
-    // 默哀模式
     checkDays();
   });
 };
@@ -69,7 +100,7 @@ const loadComplete = () => {
 watch(
   () => store.innerWidth,
   (value) => {
-    if (value < 721) {
+    if (value < 990) {
       store.boxOpenState = false;
       store.setOpenState = false;
     }
@@ -77,10 +108,8 @@ watch(
 );
 
 onMounted(() => {
-  // 自定义鼠标
   cursorInit();
 
-  // 屏蔽右键
   document.oncontextmenu = () => {
     ElMessage({
       message: "为了浏览体验，本站禁用右键",
@@ -90,7 +119,6 @@ onMounted(() => {
     return false;
   };
 
-  // 鼠标中键事件
   window.addEventListener("mousedown", (event) => {
     if (event.button == 1) {
       store.backgroundShow = !store.backgroundShow;
@@ -101,24 +129,8 @@ onMounted(() => {
     }
   });
 
-  // 监听当前页面宽度
   getWidth();
   window.addEventListener("resize", getWidth);
-
-  // 控制台输出
-  const styleTitle1 = "font-size: 20px;font-weight: 600;color: rgb(244,167,89);";
-  const styleTitle2 = "font-size:12px;color: rgb(244,167,89);";
-  const styleContent = "color: rgb(30,152,255);";
-  const title1 = "無名の主页";
-  const title2 = `
- _____ __  __  _______     ____     __
-|_   _|  \\/  |/ ____\\ \\   / /\\ \\   / /
-  | | | \\  / | (___  \\ \\_/ /  \\ \\_/ /
-  | | | |\\/| |\\___ \\  \\   /    \\   /
- _| |_| |  | |____) |  | |      | |
-|_____|_|  |_|_____/   |_|      |_|`;
-  const content = `\n\n版本: ${config.version}\n主页: ${config.home}\nGithub: ${config.github}`;
-  console.info(`%c${title1} %c${title2} %c${content}`, styleTitle1, styleTitle2, styleContent);
 });
 
 onBeforeUnmount(() => {
@@ -137,20 +149,158 @@ onBeforeUnmount(() => {
   transition: transform 0.3s;
   animation: fade-blur-main-in 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   animation-delay: 0.5s;
+
   .container {
     width: 100%;
     height: 100vh;
     margin: 0 auto;
     padding: 0 0.5vw;
+
     .all {
       width: 100%;
       height: 100%;
-      padding: 0 0.75rem;
       display: flex;
-      flex-direction: row;
       justify-content: center;
       align-items: center;
+
+      // === 核心布局样式 ===
+      .layout-box {
+        width: 100%;
+        max-width: 1200px;
+        height: 70vh; // 限制高度区域
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center; // 垂直居中对齐
+        gap: 40px;
+        padding: 0 20px;
+
+        // --- 左侧列 ---
+        .left-col {
+          flex: 1;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between; // 内容上下分布
+          align-items: flex-start;
+          color: #fff;
+
+          .content-top {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            // Logo 样式
+            .logo-wrapper {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+
+              .logo-img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                margin-right: 15px;
+                transition: transform 0.3s;
+
+                &:hover {
+                  transform: rotate(360deg);
+                }
+              }
+
+              .logo-text {
+                .title {
+                  font-size: 2.5rem;
+                  font-family: "Pacifico-Regular", sans-serif;
+                }
+
+                .subtitle {
+                  font-size: 1.2rem;
+                  margin-left: 5px;
+                }
+              }
+            }
+
+            // 卡片容器限制宽度
+            .card-wrapper {
+              width: 100%;
+              max-width: 460px; // 限制左侧卡片最大宽度
+            }
+          }
+
+          // 社交链接
+          .social-wrapper {
+            width: 100%;
+            margin-top: 20px;
+
+            :deep(.social) {
+              justify-content: flex-start; // 图标靠左
+            }
+          }
+        }
+
+        // --- 右侧列 ---
+        .right-col {
+          flex: 1;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+
+          .links-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center; // 确保 Links 垂直居中
+          }
+
+          // 确保 Box (菜单) 也能占满并居中
+          :deep(.box) {
+            height: auto;
+            max-height: 100%;
+          }
+        }
+      }
+
+      // --- 移动端适配 ---
+      @media (max-width: 990px) {
+        .layout-box {
+          flex-direction: column;
+          height: auto;
+          gap: 30px;
+          margin-top: 80px;
+          padding-bottom: 100px;
+
+          .left-col {
+            align-items: center;
+            width: 100%;
+            height: auto;
+
+            .content-top {
+              align-items: center;
+
+              .logo-wrapper {
+                justify-content: center;
+              }
+            }
+
+            .social-wrapper {
+              :deep(.social) {
+                justify-content: center;
+              }
+            }
+          }
+
+          .right-col {
+            width: 100%;
+            height: auto;
+          }
+        }
+      }
     }
+
     .more {
       position: fixed;
       top: 0;
@@ -162,10 +312,9 @@ onBeforeUnmount(() => {
       z-index: 2;
       animation: fade 0.5s;
     }
-    @media (max-width: 1200px) {
-      padding: 0 2vw;
-    }
   }
+
+  // 菜单按钮 & 页脚 & 滚动条样式保持不变
   .menu {
     position: absolute;
     display: flex;
@@ -180,75 +329,22 @@ onBeforeUnmount(() => {
     border-radius: 6px;
     transition: transform 0.3s;
     animation: fade 0.5s;
+
     &:active {
       transform: scale(0.95);
     }
-    .i-icon {
-      transform: translateY(2px);
-    }
-    @media (min-width: 721px) {
+
+    @media (min-width: 991px) {
       display: none;
     }
   }
-  @media (max-height: 720px) {
-    overflow-y: auto;
-    overflow-x: hidden;
-    .container {
-      height: 721px;
-      .more {
-        height: 721px;
-        width: calc(100% + 6px);
-      }
-      @media (min-width: 391px) {
-        // w 1201px ~ max
-        padding-left: 0.7vw;
-        padding-right: 0.25vw;
-        @media (max-width: 1200px) { // w 1101px ~ 1280px
-          padding-left: 2.3vw;
-          padding-right: 1.75vw;
-        }
-        @media (max-width: 1100px) { // w 993px ~ 1100px
-          padding-left: 2vw;
-          padding-right: calc(2vw - 6px);
-        }
-        @media (max-width: 992px) { // w 901px ~ 992px
-          padding-left: 2.3vw;
-          padding-right: 1.7vw;
-        }
-        @media (max-width: 900px) { // w 391px ~ 900px
-          padding-left: 2vw;
-          padding-right: calc(2vw - 6px);
-        }
-      }
-    }
-    .menu {
-      top: 605.64px; // 721px * 0.84
-      left: 170.5px; // 391 * 0.5 - 25px
-      @media (min-width: 391px) {
-        left: calc(50% - 25px);
-      }
-    }
-    .f-ter {
-      top: 675px; // 721px - 46px
-      @media (min-width: 391px) {
-        padding-left: 6px;
-      }
-    }
-  }
-  @media (max-width: 390px) {
-    overflow-x: auto;
-    .container {
-      width: 391px;
-    }
-    .menu {
-      left: 167.5px; // 391px * 0.5 - 28px
-    }
-    .f-ter {
-      width: 391px;
-    }
-    @media (min-height: 721px) {
-      overflow-y: hidden;
-    }
+
+  .f-ter {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    z-index: 1;
   }
 }
 </style>
