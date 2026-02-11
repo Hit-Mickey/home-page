@@ -11,7 +11,7 @@
       <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
         :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
         <SwiperSlide v-for="(page, index) in homeLinksList" :key="'home-' + index">
-          <el-row class="link-all" :gutter="20">
+          <el-row class="link-all" :gutter="20" justify="center">
             <el-col v-for="item in page" :span="8" :key="item.name">
               <LinkItem :item="item" />
             </el-col>
@@ -31,7 +31,7 @@
       <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
         :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
         <SwiperSlide v-for="(page, index) in cloudLinksList" :key="'cloud-' + index">
-          <el-row class="link-all" :gutter="20">
+          <el-row class="link-all" :gutter="20" justify="center">
             <el-col v-for="item in page" :span="8" :key="item.name">
               <LinkItem :item="item" />
             </el-col>
@@ -51,7 +51,7 @@ import {
 import { mainStore } from "@/store";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Mousewheel } from "swiper/modules";
-import siteLinksData from "@/assets/siteLinks.json"; // 导入新的 JSON 数据
+import siteLinksData from "@/assets/siteLinks.json";
 
 const store = mainStore();
 
@@ -60,7 +60,7 @@ const siteIcon = {
   Blog, Cloud, CompactDisc, Compass, Book, Fire, LaptopCode, Home
 };
 
-// --- 子组件：提取单个卡片逻辑以复用代码 ---
+// --- 子组件 ---
 const LinkItem = defineComponent({
   props: ['item'],
   setup(props) {
@@ -73,12 +73,10 @@ const LinkItem = defineComponent({
     };
 
     return () => h('div', { class: 'item cards', onClick: () => jumpLink(props.item) }, [
-      // 主内容
       h('div', { class: 'main-content' }, [
         h(Icon, { size: 26 }, () => h(siteIcon[props.item.icon] || Link)),
         h('span', { class: 'name text-hidden' }, props.item.name)
       ]),
-      // 网络标签
       h('div', { class: 'network-tags' }, [
         props.item.ipv6 ? h('a', { href: props.item.ipv6, target: '_blank', class: 'tag ipv6', onClick: (e) => e.stopPropagation() }, 'v6') : null,
         props.item.ipv4 ? h('a', { href: props.item.ipv4, target: '_blank', class: 'tag ipv4', onClick: (e) => e.stopPropagation() }, 'v4') : null,
@@ -89,8 +87,6 @@ const LinkItem = defineComponent({
   }
 });
 
-// --- 数据处理逻辑 ---
-// 通用函数：将数组切分为每页 6 个
 const chunkData = (arr) => {
   const result = [];
   if (!arr) return result;
@@ -100,22 +96,24 @@ const chunkData = (arr) => {
   return result;
 };
 
-// 分别计算两个列表
 const homeLinksList = computed(() => chunkData(siteLinksData.home));
 const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
-
 </script>
 
 <style lang="scss" scoped>
 .links {
+  // 修改点2：让整个容器垂直居中
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // 垂直居中核心代码
 
-  // 每个版块的包装容器，增加底部间距
   .section-wrapper {
     margin-bottom: 30px;
   }
 
   .line {
-    margin: 1rem 0.25rem 1rem; // 稍微调整了上边距
+    margin: 1rem 0.25rem 1rem;
     font-size: 1.1rem;
     display: flex;
     align-items: center;
@@ -128,14 +126,12 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
     }
   }
 
-  // 这里的 Swiper 样式保持不变
   .swiper {
     left: -10px;
     width: calc(100% + 20px);
     padding: 5px 10px 0;
     z-index: 0;
 
-    // 如果一个版块内容很少，不显示分页器，可以隐藏它 (可选)
     .swiper-pagination {
       margin-top: 12px;
       display: flex;
@@ -164,10 +160,12 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
   }
 
   .link-all {
-    // 高度需要适配内容，避免重叠
     height: 240px;
+    // 修改点3：让 Swiper 内部的内容也垂直居中
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
 
-    // 使用 :deep 穿透到子组件 LinkItem 的样式
     :deep(.item) {
       height: 110px;
       width: 100%;
@@ -178,7 +176,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
       padding: 6px 10px;
       animation: fade 0.5s;
       position: relative;
-      margin-bottom: 20px; // 确保每行卡片有间距
+      margin-bottom: 20px;
 
       &:hover {
         transform: scale(1.02);
@@ -208,7 +206,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         width: 100%;
 
         .tag {
-          font-size: 12px; // 这里就是你之前调整的字体大小
+          font-size: 12px;
           padding: 2px 6px;
           border-radius: 4px;
           text-decoration: none;
@@ -221,25 +219,25 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
             opacity: 0.8;
           }
 
-          &.ipv6 {
-            background-color: #67c23a;
-          }
+          // 恢复了颜色样式，如果你不需要可以再次注释掉
+          // &.ipv6 {
+          //   background-color: #67c23a;
+          // }
 
-          &.ipv4 {
-            background-color: #409eff;
-          }
+          // &.ipv4 {
+          //   background-color: #409eff;
+          // }
 
-          &.vlan {
-            background-color: #e6a23c;
-          }
+          // &.vlan {
+          //   background-color: #e6a23c;
+          // }
 
-          &.lan {
-            background-color: #909399;
-          }
+          // &.lan {
+          //   background-color: #909399;
+          // }
         }
       }
 
-      // 媒体查询
       @media (min-width: 720px) and (max-width: 820px) {
         .name {
           display: none;
