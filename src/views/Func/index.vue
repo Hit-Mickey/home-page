@@ -1,5 +1,4 @@
 <template>
-  <!-- 功能区域 -->
   <div :class="store.mobileFuncState ? 'function mobile' : 'function'">
     <el-row :gutter="20">
       <el-col :span="12">
@@ -34,6 +33,7 @@ import { mainStore } from "@/store";
 import Music from "@/components/Music.vue";
 import Hitokoto from "@/components/Hitokoto.vue";
 import Weather from "@/components/Weather.vue";
+import { ref, onMounted, onBeforeUnmount } from "vue"; // 确保引入 ref 等
 
 const store = mainStore();
 
@@ -66,33 +66,40 @@ onBeforeUnmount(() => {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
   &.mobile {
     .el-row {
       .el-col {
         &:nth-of-type(1) {
           display: contents;
         }
+
         &:nth-of-type(2) {
           display: none;
         }
       }
     }
   }
+
   .el-row {
     height: 100%;
     width: 100%;
     margin: 0 !important;
+
     .el-col {
       &:nth-of-type(1) {
         padding-left: 0 !important;
       }
+
       &:nth-of-type(2) {
         padding-right: 0 !important;
       }
+
       @media (max-width: 910px) {
         &:nth-of-type(1) {
           display: none;
         }
+
         &:nth-of-type(2) {
           padding: 0 !important;
           flex: none;
@@ -101,42 +108,57 @@ onBeforeUnmount(() => {
         }
       }
     }
+
     .left,
     .right {
       width: 100%;
       height: 100%;
     }
+
     .right {
       padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+
+      // --- 核心修改部分 ---
+      // 之前是 justify-content: space-between; 导致上下撑开
+      justify-content: center; // 改为垂直居中
+      gap: 15px; // 使用 gap 控制时间与天气之间的间距 (推荐 10px-20px)
+      // ------------------
+
       animation: fade 0.5s;
+
       .time {
         font-size: 1.1rem;
         text-align: center;
+
         .date {
           text-overflow: ellipsis;
           overflow-x: hidden;
           white-space: nowrap;
         }
+
         .text {
           margin-top: 10px;
           font-size: 3.25rem;
           letter-spacing: 2px;
           font-family: "UnidreamLED";
         }
+
         @media (min-width: 1201px) and (max-width: 1280px) {
           font-size: 1rem;
         }
+
         @media (min-width: 911px) and (max-width: 992px) {
           font-size: 1rem;
+
           .text {
             font-size: 2.75rem;
           }
         }
       }
+
       .weather {
         text-align: center;
         width: 100%;
