@@ -1,42 +1,132 @@
 {
   "home": [
     {
-      "icon": "Blog",
-      "name": "NAS 存储",
-      "link": "https://nas.example.com",
-      "ipv4": "http://192.168.1.10:5000",
-      "ipv6": "",
-      "vlan": "",
-      "intranet": "http://10.0.0.1:5000"
+      "icon": "Cloud",
+      "name": "NginxUI",
+      "link": "https://nginx-mingfan.speedtest.mingqian.online",
+      "ipv4": "https://nginx-mingfan.speedtest.mingqian.online",
+      "ipv6": "https://nginx.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:1000",
+      "lan": "http://192.168.5.2:1000"
+    },
+    {
+      "icon": "Book",
+      "name": "openlist",
+      "link": "https://openlist.speedtest.mingqian.online",
+      "ipv4": "https://openlist.speedtest.mingqian.online",
+      "ipv6": "https://openlist.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:2000",
+      "lan": "http://192.168.5.2:2000"
+    },
+    {
+      "icon": "Compass",
+      "name": "DDNS-Go",
+      "link": "https://ddns.speedtest.mingqian.online",
+      "ipv4": "https://ddns.speedtest.mingqian.online",
+      "ipv6": "https://ddns.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:3000",
+      "lan": "http://192.168.5.2:3000"
+    },
+    {
+      "icon": "CompactDisc",
+      "name": "Jellyfin",
+      "link": "https://jellyfin.speedtest.mingqian.online",
+      "ipv4": "https://jellyfin.speedtest.mingqian.online",
+      "ipv6": "https://jellyfin.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:4000",
+      "lan": "http://192.168.5.2:4000"
+    },
+    {
+      "icon": "LaptopCode",
+      "name": "TinyMediaManager",
+      "link": "https://tmm.speedtest.mingqian.online",
+      "ipv4": "https://tmm.speedtest.mingqian.online",
+      "ipv6": "https://tmm.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:6003",
+      "lan": "http://192.168.5.2:6003"
+    },
+    {
+      "icon": "Fire",
+      "name": "Glances",
+      "link": "https://glances.speedtest.mingqian.online",
+      "ipv4": "https://glances.speedtest.mingqian.online",
+      "ipv6": "https://glances.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:61208",
+      "lan": "http://192.168.5.2:61208"
     },
     {
       "icon": "Cloud",
-      "name": "家庭 路由",
-      "link": "https://router.example.com",
-      "ipv4": "http://192.168.1.1",
-      "ipv6": "",
-      "vlan": "",
-      "intranet": ""
+      "name": "百度网盘",
+      "link": "https://baidunetdisk.speedtest.mingqian.online",
+      "ipv4": "https://baidunetdisk.speedtest.mingqian.online",
+      "ipv6": "https://baidunetdisk.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:7000",
+      "lan": "http://192.168.5.2:7000"
+    },
+    {
+      "icon": "Cloud",
+      "name": "迅雷下载",
+      "link": "https://xunlei.speedtest.mingqian.online",
+      "ipv4": "https://xunlei.speedtest.mingqian.online",
+      "ipv6": "https://xunlei.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:6005",
+      "lan": "http://192.168.5.2:6005"
+    },
+    {
+      "icon": "Cloud",
+      "name": "qBittorrent",
+      "link": "https://qbittorrent.speedtest.mingqian.online",
+      "ipv4": "https://qbittorrent.speedtest.mingqian.online",
+      "ipv6": "https://qbittorrent.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:5000",
+      "lan": "http://192.168.5.2:5000"
+    },
+    {
+      "icon": "Cloud",
+      "name": "Resilio Sync",
+      "link": "https://resiliosync.speedtest.mingqian.online",
+      "ipv4": "https://resiliosync.speedtest.mingqian.online",
+      "ipv6": "https://resiliosync.speedtest.mingqian.space:1443",
+      "vlan": "http://10.2.1.2:6660",
+      "lan": "http://192.168.5.2:6660"
+    },
+    {
+      "icon": "Book",
+      "name": "Typora Docs",
+      "link": "https://typora_documents.speedtest.mingqian.online",
+      "ipv4": "https://typora_documents.speedtest.mingqian.online",
+      "ipv6": "https://typora_documents.speedtest.mingqian.space:84/typora_documents/",
+      "vlan": "http://10.2.1.2:83/typora_documents/",
+      "lan": "http://192.168.5.2:83/typora_documents/"
+    },
+    {
+      "icon": "Compass",
+      "name": "Clash",
+      "link": "https://clash.speedtest.mingqian.online/ui",
+      "ipv4": "https://clash.speedtest.mingqian.online/ui",
+      "ipv6": "https://clash.speedtest.mingqian.space:1443/ui",
+      "vlan": "http://10.2.1.2:9000/ui",
+      "lan": "http://192.168.5.2:9000/ui"
     }
   ],
   "cloud": [
     {
-      "icon": "Compass",
-      "name": "雨云 面板",
-      "link": "https://app.rainyun.com",
-      "ipv4": "",
+      "icon": "Cloud",
+      "name": "NginxUI",
+      "link": "https://nginx-rainyun.mingqian.online",
+      "ipv4": "https://nginx-rainyun.mingqian.online",
       "ipv6": "",
-      "vlan": "",
-      "intranet": ""
+      "vlan": "http://10.2.1.1:1000",
+      "lan": ""
     },
     {
       "icon": "LaptopCode",
-      "name": "个人博客",
-      "link": "https://blog.example.com",
-      "ipv4": "http://1.1.1.1",
+      "name": "EasyTier",
+      "link": "https://easytierdashboard.mingqian.online",
+      "ipv4": "https://easytierdashboard.mingqian.online",
       "ipv6": "",
-      "vlan": "",
-      "intranet": ""
+      "vlan": "http://10.2.1.1:11211",
+      "lan": ""
     }
   ]
 }
