@@ -1,43 +1,47 @@
 <template>
   <div class="links">
-    <div v-if="homeLinksList.length > 0" class="section-wrapper">
-      <div class="line">
-        <Icon size="20">
-          <Home />
-        </Icon>
-        <span class="title">家庭服务器</span>
+    <div class="content-wrapper">
+
+      <div v-if="homeLinksList.length > 0" class="section-wrapper">
+        <div class="line">
+          <Icon size="20">
+            <Home />
+          </Icon>
+          <span class="title">家庭服务器</span>
+        </div>
+
+        <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
+          :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
+          <SwiperSlide v-for="(page, index) in homeLinksList" :key="'home-' + index">
+            <el-row class="link-all" :gutter="20" justify="center">
+              <el-col v-for="item in page" :span="8" :key="item.name">
+                <LinkItem :item="item" />
+              </el-col>
+            </el-row>
+          </SwiperSlide>
+        </Swiper>
       </div>
 
-      <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
-        :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
-        <SwiperSlide v-for="(page, index) in homeLinksList" :key="'home-' + index">
-          <el-row class="link-all" :gutter="20" justify="center">
-            <el-col v-for="item in page" :span="8" :key="item.name">
-              <LinkItem :item="item" />
-            </el-col>
-          </el-row>
-        </SwiperSlide>
-      </Swiper>
-    </div>
+      <div v-if="cloudLinksList.length > 0" class="section-wrapper">
+        <div class="line">
+          <Icon size="20">
+            <Cloud />
+          </Icon>
+          <span class="title">雨云服务器</span>
+        </div>
 
-    <div v-if="cloudLinksList.length > 0" class="section-wrapper">
-      <div class="line">
-        <Icon size="20">
-          <Cloud />
-        </Icon>
-        <span class="title">雨云服务器</span>
+        <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
+          :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
+          <SwiperSlide v-for="(page, index) in cloudLinksList" :key="'cloud-' + index">
+            <el-row class="link-all" :gutter="20" justify="center">
+              <el-col v-for="item in page" :span="8" :key="item.name">
+                <LinkItem :item="item" />
+              </el-col>
+            </el-row>
+          </SwiperSlide>
+        </Swiper>
       </div>
 
-      <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
-        :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
-        <SwiperSlide v-for="(page, index) in cloudLinksList" :key="'cloud-' + index">
-          <el-row class="link-all" :gutter="20" justify="center">
-            <el-col v-for="item in page" :span="8" :key="item.name">
-              <LinkItem :item="item" />
-            </el-col>
-          </el-row>
-        </SwiperSlide>
-      </Swiper>
     </div>
   </div>
 </template>
@@ -55,7 +59,6 @@ import siteLinksData from "@/assets/siteLinks.json";
 
 const store = mainStore();
 
-// 图标映射
 const siteIcon = {
   Blog, Cloud, CompactDisc, Compass, Book, Fire, LaptopCode, Home
 };
@@ -102,26 +105,39 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
 <style lang="scss" scoped>
 .links {
-  // 修改核心：强制最小高度为 80vh，确保有足够空间来居中
-  min-height: 80vh;
-  width: 100%; // 确保宽度占满
+  // 修改1：使用 calc 计算高度，减去顶部和底部预留高度(约160px)
+  // 这样能确保 .links 容器真的位于屏幕中间区域
+  height: calc(100vh - 160px);
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center; // 垂直居中
+  align-items: center; // 水平居中
 
-  // 在移动端取消强制高度，避免布局溢出
+  // 移动端适配
   @media (max-width: 720px) {
-    min-height: auto;
-    padding-top: 20px; // 移动端给一点顶部间距
+    height: auto;
+    margin-top: 20px;
+    display: block;
+  }
+
+  // 新增：包裹层宽度控制
+  .content-wrapper {
+    width: 100%;
   }
 
   .section-wrapper {
-    margin-bottom: 30px;
-    width: 100%; // 确保内容宽度正常
+    margin-bottom: 20px; // 版块间距
+    width: 100%;
+
+    // 如果是最后一个版块，去掉底部间距，让居中更精确
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .line {
-    margin: 1rem 0.25rem 1rem;
+    margin: 0 0.25rem 0.5rem; // 减小标题的上下间距
     font-size: 1.1rem;
     display: flex;
     align-items: center;
@@ -135,13 +151,13 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
   }
 
   .swiper {
-    left: -10px;
-    width: calc(100% + 20px);
-    padding: 5px 10px 0;
+    width: 100%;
+    padding: 0 10px; // 稍微给点内边距
     z-index: 0;
 
     .swiper-pagination {
-      margin-top: 12px;
+      position: relative;
+      margin-top: 10px;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -167,15 +183,15 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
     }
   }
 
+  // 修改2：彻底移除固定高度，改为自适应
   .link-all {
-    // 这里保持默认或根据内容自动撑开
-    // height: 240px; // 如果内容较少，可以去掉固定高度，或者保留
-    min-height: 240px; // 改为 min-height 防止内容被截断
+    height: auto !important; // 强制高度自适应
+    min-height: 0; // 清除最小高度
 
     // 内容垂直居中
     display: flex;
-    align-content: center;
     flex-wrap: wrap;
+    justify-content: center; // 图标水平居中
 
     :deep(.item) {
       height: 110px;
@@ -187,7 +203,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
       padding: 6px 10px;
       animation: fade 0.5s;
       position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 15px; // 适度调整卡片下方的间距
 
       &:hover {
         transform: scale(1.02);
@@ -217,7 +233,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         width: 100%;
 
         .tag {
-          font-size: 16px;
+          font-size: 12px; // 推荐 12px，如果一定要大字体再改成 14px 或 16px
           padding: 2px 6px;
           border-radius: 4px;
           text-decoration: none;
@@ -230,21 +246,21 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
             opacity: 0.8;
           }
 
-          // &.ipv6 {
-          //   background-color: #67c23a;
-          // }
+          &.ipv6 {
+            background-color: #67c23a;
+          }
 
-          // &.ipv4 {
-          //   background-color: #409eff;
-          // }
+          &.ipv4 {
+            background-color: #409eff;
+          }
 
-          // &.vlan {
-          //   background-color: #e6a23c;
-          // }
+          &.vlan {
+            background-color: #e6a23c;
+          }
 
-          // &.lan {
-          //   background-color: #909399;
-          // }
+          &.lan {
+            background-color: #909399;
+          }
         }
       }
 
