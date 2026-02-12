@@ -1,7 +1,7 @@
 {
   "home": [
     {
-      "icon": "Cloud",
+      "icon": "Compass",
       "name": "NginxUI",
       "link": "https://nginx-mingfan.speedtest.mingqian.online",
       "ipv4": "https://nginx-mingfan.speedtest.mingqian.online",
@@ -10,7 +10,7 @@
       "lan": "http://192.168.5.2:1000"
     },
     {
-      "icon": "Book",
+      "icon": "Cloud",
       "name": "openlist",
       "link": "https://openlist.speedtest.mingqian.online",
       "ipv4": "https://openlist.speedtest.mingqian.online",
@@ -19,7 +19,7 @@
       "lan": "http://192.168.5.2:2000"
     },
     {
-      "icon": "Compass",
+      "icon": "Link",
       "name": "DDNS-Go",
       "link": "https://ddns.speedtest.mingqian.online",
       "ipv4": "https://ddns.speedtest.mingqian.online",
@@ -28,7 +28,7 @@
       "lan": "http://192.168.5.2:3000"
     },
     {
-      "icon": "CompactDisc",
+      "icon": "Cloud",
       "name": "Jellyfin",
       "link": "https://jellyfin.speedtest.mingqian.online",
       "ipv4": "https://jellyfin.speedtest.mingqian.online",
@@ -37,8 +37,8 @@
       "lan": "http://192.168.5.2:4000"
     },
     {
-      "icon": "LaptopCode",
-      "name": "TinyMediaManager",
+      "icon": "Link",
+      "name": "TMM",
       "link": "https://tmm.speedtest.mingqian.online",
       "ipv4": "https://tmm.speedtest.mingqian.online",
       "ipv6": "https://tmm.speedtest.mingqian.space:1443",
@@ -46,7 +46,7 @@
       "lan": "http://192.168.5.2:6003"
     },
     {
-      "icon": "Fire",
+      "icon": "LaptopCode",
       "name": "Glances",
       "link": "https://glances.speedtest.mingqian.online",
       "ipv4": "https://glances.speedtest.mingqian.online",
@@ -100,7 +100,7 @@
       "lan": "http://192.168.5.2:83/typora_documents/"
     },
     {
-      "icon": "Compass",
+      "icon": "Fire",
       "name": "Clash",
       "link": "https://clash.speedtest.mingqian.online/ui",
       "ipv4": "https://clash.speedtest.mingqian.online/ui",
@@ -111,7 +111,7 @@
   ],
   "cloud": [
     {
-      "icon": "Cloud",
+      "icon": "Compass",
       "name": "NginxUI",
       "link": "https://nginx-rainyun.mingqian.online",
       "ipv4": "https://nginx-rainyun.mingqian.online",
