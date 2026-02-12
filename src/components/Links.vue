@@ -48,6 +48,8 @@
 
 <script setup>
 import { computed, defineComponent, h } from "vue";
+// 可前往 https://www.xicons.org 自行挑选并在此处引入
+// 此处引入的是 fa 类型
 import { Icon } from "@vicons/utils";
 import {
   Link, Blog, CompactDisc, Cloud, Compass, Book, Fire, LaptopCode, Home
@@ -84,7 +86,7 @@ const LinkItem = defineComponent({
         props.item.ipv6 ? h('a', { href: props.item.ipv6, target: '_blank', class: 'tag ipv6', onClick: (e) => e.stopPropagation() }, 'v6') : null,
         props.item.ipv4 ? h('a', { href: props.item.ipv4, target: '_blank', class: 'tag ipv4', onClick: (e) => e.stopPropagation() }, 'v4') : null,
         props.item.vlan ? h('a', { href: props.item.vlan, target: '_blank', class: 'tag vlan', onClick: (e) => e.stopPropagation() }, 'VLAN') : null,
-        props.item.lan ? h('a', { href: props.item.lan, target: '_blank', class: 'tag lan', onClick: (e) => e.stopPropagation() }, '内网') : null,
+        props.item.lan ? h('a', { href: props.item.lan, target: '_blank', class: 'tag lan', onClick: (e) => e.stopPropagation() }, 'LAN') : null,
       ])
     ]);
   }
@@ -106,7 +108,6 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 <style lang="scss" scoped>
 .links {
   // 修改1：使用 calc 计算高度，减去顶部和底部预留高度(约160px)
-  // 这样能确保 .links 容器真的位于屏幕中间区域
   height: calc(100vh - 160px);
   width: 100%;
   display: flex;
@@ -121,7 +122,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
     display: block;
   }
 
-  // 新增：包裹层宽度控制
+  // 包裹层宽度控制
   .content-wrapper {
     width: 100%;
   }
@@ -130,14 +131,14 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
     margin-bottom: 20px; // 版块间距
     width: 100%;
 
-    // 如果是最后一个版块，去掉底部间距，让居中更精确
+    // 如果是最后一个版块，去掉底部间距
     &:last-child {
       margin-bottom: 0;
     }
   }
 
   .line {
-    margin: 0 0.25rem 0.5rem; // 减小标题的上下间距
+    margin: 0 0.25rem 0.5rem;
     font-size: 1.1rem;
     display: flex;
     align-items: center;
@@ -152,7 +153,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
   .swiper {
     width: 100%;
-    padding: 0 10px; // 稍微给点内边距
+    padding: 0 10px;
     z-index: 0;
 
     .swiper-pagination {
@@ -183,15 +184,15 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
     }
   }
 
-  // 修改2：彻底移除固定高度，改为自适应
+  // 修改2：自适应高度
   .link-all {
-    height: auto !important; // 强制高度自适应
-    min-height: 0; // 清除最小高度
+    height: auto !important;
+    min-height: 0;
 
     // 内容垂直居中
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; // 图标水平居中
+    justify-content: center;
 
     :deep(.item) {
       height: 110px;
@@ -203,7 +204,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
       padding: 6px 10px;
       animation: fade 0.5s;
       position: relative;
-      margin-bottom: 15px; // 适度调整卡片下方的间距
+      margin-bottom: 15px;
 
       &:hover {
         transform: scale(1.02);
@@ -222,6 +223,8 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         .name {
           font-size: 1.1rem;
           margin-left: 8px;
+          // 确保字体跟随全局
+          font-family: inherit;
         }
       }
 
@@ -233,34 +236,31 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         width: 100%;
 
         .tag {
-          font-size: 12px; // 推荐 12px，如果一定要大字体再改成 14px 或 16px
-          padding: 2px 6px;
-          border-radius: 4px;
+          // --- 核心修改部分 ---
+          font-size: 12px;
+          padding: 2px 8px; // 稍微加宽一点
+          border-radius: 6px; // 圆角稍微大一点
           text-decoration: none;
-          color: #fff;
-          font-weight: bold;
-          transition: opacity 0.2s;
           line-height: 1.2;
+          transition: all 0.3s;
+
+          // 字体设置：跟随主页
+          font-family: inherit;
+          font-weight: normal; // 去除粗体，使其更协调（如果喜欢粗体可改为 bold）
+          color: inherit; // 继承父级文字颜色（通常是白色）
+
+          // 背景设置：统一为半透明磨砂风格，不再使用红绿蓝
+          background-color: rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.1); // 微弱的边框
+          backdrop-filter: blur(4px); // 磨砂玻璃效果
 
           &:hover {
-            opacity: 0.8;
+            background-color: rgba(255, 255, 255, 0.3); // 悬停时变亮
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px); // 微微上浮
           }
 
-          &.ipv6 {
-            background-color: #67c23a;
-          }
-
-          &.ipv4 {
-            background-color: #409eff;
-          }
-
-          &.vlan {
-            background-color: #e6a23c;
-          }
-
-          &.lan {
-            background-color: #909399;
-          }
+          // --- 修改结束 ---
         }
       }
 
