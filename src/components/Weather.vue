@@ -10,13 +10,7 @@
           : weatherData.weather.winddirection + "风"
       }}&nbsp;
     </span>
-    <span class="sm-hidden">
-      {{
-        weatherData.weather.windpower?.endsWith("级")
-          ? weatherData.weather.windpower
-          : weatherData.weather.windpower + "级"
-      }}&nbsp;
-    </span>
+    <span class="sm-hidden">{{ weatherData.weather.windpower }}&nbsp;级</span>
   </div>
   <div class="weather" v-else>
     <span>天气数据获取失败</span>
@@ -24,25 +18,15 @@
 </template>
 
 <script setup>
-import {
-  getTXAdcode,
-  getTXWeather,
-  getGDAdcode,
-  getGDAdcodeI,
-  getGDWeather,
-  getIPV4Addr,
-} from "@/api";
+import { getTXAdcode, getTXWeather, getTXAdcodeS, getTXWeatherS, getGDAdcode, getGDAdcodeI, getGDWeather, getIPV4Addr } from "@/api";
 import { Error } from "@icon-park/vue-next";
-import { mainStore } from "@/store";
 
-const store = mainStore();
+//高德key，腾讯key
+const txkey = import.meta.env.VITE_TX_WEATHER_KEY;
+const txskey = import.meta.env.VITE_TX_WEATHER_SKEY
+const gdkey = import.meta.env.VITE_GD_WEATHER_KEY;
 
-// 加载环境变量
-// 请确保 .env 文件中配置了以下 Key
-const txKey = import.meta.env.VITE_TX_WEATHER_KEY; // 腾讯 Key
-const gdKey = import.meta.env.VITE_GD_WEATHER_KEY; // 高德 Key
-
-// 天气数据结构
+// 天气数据
 const weatherData = reactive({
   adCode: {
     city: null, // 城市
@@ -56,110 +40,153 @@ const weatherData = reactive({
   },
 });
 
-/**
- * 1. 腾讯天气获取逻辑 (优先级最高)
- */
+// 取出天气平均值
+const getTemperature = (min, max) => {
+  try {
+    // 计算平均值并四舍五入
+    const average = (Number(min) + Number(max)) / 2;
+    return Math.round(average);
+  } catch (error) {
+    console.error("计算温度出现错误：", error);
+    return "NaN";
+  }
+};
+
 const getTXW = async () => {
-  if (!txKey) throw "未配置腾讯 Key";
-
-  // 获取位置
-  const adCodeRes = await getTXAdcode(txKey);
-  if (adCodeRes.status !== 0) throw "腾讯定位失败";
-
-  const adInfo = adCodeRes.result.ad_info;
-  weatherData.adCode = {
-    city: adInfo.district || adInfo.city || "未知城市",
-    adcode: adInfo.adcode,
-  };
-
-  // 获取天气
-  const weatherRes = await getTXWeather(txKey, weatherData.adCode.adcode);
-  if (weatherRes.status !== 0) throw "腾讯天气获取失败";
-
-  const now = weatherRes.result.now;
-  weatherData.weather = {
-    weather: now.text,
-    temperature: now.temp,
-    winddirection: now.wind_dir,
-    windpower: now.wind_power,
+  if (!txskey) {
+    console.log("正在使用腾讯天气接口");
+    // 获取 Adcode
+    const adCode = (await getTXAdcode(txkey));
+    if (String(adCode.status) !== "0") {
+      throw "天气信息获取失败";
+    };
+    weatherData.adCode = {
+      city: adCode.result.ad_info.district || adCode.result.ad_info.city || adCode.result.ad_info.province || "未知地区",
+      adcode: adCode.result.ad_info.adcode,
+    };
+    // 获取天气信息
+    if (weatherData.adCode.adcode == null) {
+      throw "天气信息获取失败";
+    };
+    const txWeather = (await getTXWeather(txkey, weatherData.adCode.adcode));
+    if (String(txWeather.status) !== "0") {
+      throw "天气信息获取失败";
+    };
+    const realtimeData = txWeather.result.realtime?.[0];
+    if (!realtimeData?.infos) {
+      throw "天气信息获取失败";
+    };
+    weatherData.weather = {
+      weather: realtimeData.infos.weather,
+      temperature: realtimeData.infos.temperature,
+      winddirection: realtimeData.infos.wind_direction,
+      windpower: realtimeData.infos.wind_power,
+    };
+  } else {
+    console.log("正在通过鉴权模式使用腾讯天气接口");
+    // 获取 Adcode
+    const adCode = (await getTXAdcodeS(txkey, txskey));
+    if (String(adCode?.status) !== "0") {
+      throw "天气信息获取失败";
+    };
+    weatherData.adCode = {
+      city: adCode.result.ad_info.district || adCode.result.ad_info.city || adCode.result.ad_info.province || "未知地区",
+      adcode: adCode.result.ad_info.adcode,
+    };
+    // 获取天气信息
+    if (weatherData.adCode.adcode == null) {
+      throw "天气信息获取失败";
+    };
+    const txWeather = (await getTXWeatherS(txkey, weatherData.adCode.adcode, txskey));
+    if (String(txWeather.status) !== "0") {
+      throw "天气信息获取失败";
+    };
+    const realtimeData = txWeather.result.realtime?.[0];
+    if (!realtimeData?.infos) {
+      throw "天气信息获取失败";
+    };
+    weatherData.weather = {
+      weather: realtimeData.infos.weather,
+      temperature: realtimeData.infos.temperature,
+      winddirection: realtimeData.infos.wind_direction,
+      windpower: realtimeData.infos.wind_power,
+    };
   };
 };
 
-/**
- * 2. 高德天气获取逻辑 (优先级次之)
- * 包含 IPv4 补救措施，解决 IPv6 环境下定位失败的问题
- */
 const getGDW = async () => {
-  if (!gdKey) throw "未配置高德 Key";
-
-  // 尝试直接获取位置
-  let adCodeRes = await getGDAdcode(gdKey);
-
-  // 如果直接定位失败（常见于 IPv6 环境），尝试通过 IPv4 辅助定位
-  if (adCodeRes.infocode !== "10000") {
-    console.warn("高德直接定位失败，尝试 IPv4 辅助定位...");
-    try {
-      const ipData = await getIPV4Addr();
-      if (ipData && ipData.ip) {
-        adCodeRes = await getGDAdcodeI(ipData.ip, gdKey);
-      }
-    } catch (e) {
-      console.warn("IPv4 获取失败");
-    }
-  }
-
-  // 二次校验位置信息
-  if (adCodeRes.infocode !== "10000") throw "高德定位失败";
-
-  weatherData.adCode = {
-    city: adCodeRes.city || adCodeRes.province || "未知城市",
-    adcode: adCodeRes.adcode,
+  // 获取 Adcode
+  const adCode = (await getGDAdcode(gdkey));
+  let adCodei = null;
+  if (String(adCode?.infocode) !== "10000" || String(adCode?.status) !== "1") {
+    console.log("检测到高德接口 IP 获取失败，调用额外接口获取 IPV4 地址...");
+    const ipV4addr = await getIPV4Addr();
+    adCodei = (await getGDAdcodeI(ipV4addr.ip, gdkey));
+    if (String(adCodei?.infocode) !== "10000" || String(adCodei?.status) !== "1") {
+      throw "天气信息获取失败";
+    };
   };
-
-  // 获取天气
-  const weatherRes = await getGDWeather(gdKey, weatherData.adCode.adcode);
-  if (weatherRes.infocode !== "10000" || !weatherRes.lives?.length) {
-    throw "高德天气获取失败";
-  }
-
-  const live = weatherRes.lives[0];
+  if (!adCodei) {
+    weatherData.adCode = {
+      city: adCode.city || adCode.province || "未知地区",
+      adcode: adCode.adcode || null,
+    };
+  } else {
+    weatherData.adCode = {
+      city: adCodei.city || adCodei.province || "未知地区",
+      adcode: adCodei.adcode || null,
+    };
+  };
+  // 获取天气信息
+  if (weatherData.adCode.adcode == null) {
+    throw "天气信息获取失败";
+  };
+  const result = (await getGDWeather(gdkey, weatherData.adCode.adcode));
+  if (String(result?.status) !== "1" || String(result?.infocode) !== "10000") {
+    throw "天气信息获取失败";
+  };
   weatherData.weather = {
-    weather: live.weather,
-    temperature: live.temperature,
-    winddirection: live.winddirection,
-    windpower: live.windpower,
+    weather: result.lives[0].weather,
+    temperature: result.lives[0].temperature,
+    winddirection: result.lives[0].winddirection,
+    windpower: result.lives[0].windpower,
   };
 };
 
-// 主逻辑控制器
+// 获取天气数据
 const getWeatherData = async () => {
   try {
-    // 第一步：尝试腾讯
-    try {
-      await getTXW();
-      return; // 成功则退出
-    } catch (e) {
-      console.warn("腾讯接口不可用，切换高德:", e);
-    }
-
-    // 第二步：尝试高德
-    try {
-      await getGDW();
-      return; // 成功则退出
-    } catch (e) {
-      console.warn("高德接口不可用:", e);
-    }
-
-    // 如果都失败了，抛出最终错误，触发 onError
-    throw "所有天气接口均获取失败";
-
+    // 获取地理位置信息
+    if (!gdkey && !txkey) {
+      console.log("未配置天气接口密钥，使用备用天气接口");
+    } else if (!txkey) {
+      // 调用高德天气 API
+      console.log("正在使用高德天气接口");
+      try {
+        await getGDW();
+      } catch (error) {
+        console.error("高德天气接口获取失败，尝试调用备用接口");
+      };
+    } else {
+      // 调用腾讯天气 API
+      try {
+        await getTXW();
+      } catch (error) {
+        console.error("腾讯天气接口获取失败，尝试使用高德天气接口");
+        try {
+          await getGDW();
+        } catch (error) {
+          console.error("高德天气接口获取失败，尝试调用备用接口");
+        };
+      };
+    };
   } catch (error) {
-    console.error(error);
+    console.error("天气信息获取失败：" + error);
     onError("天气信息获取失败");
-  }
+  };
 };
 
-// 错误提示
+// 报错信息
 const onError = (message) => {
   ElMessage({
     message,
@@ -168,9 +195,11 @@ const onError = (message) => {
       fill: "#efefef",
     }),
   });
+  console.error(message);
 };
 
 onMounted(() => {
+  // 调用获取天气
   getWeatherData();
 });
 </script>
