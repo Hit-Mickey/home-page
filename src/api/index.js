@@ -52,18 +52,22 @@ export const getHitokoto = async () => {
 /**
  * 天气
  */
-// 获取腾讯地理位置信息（JSON 方式）
+// 获取腾讯地理位置信息（JSONP 方式）
 export const getTXAdcode = async (key) => {
   // const callback = `jsonpCallback_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
-  const url = `https://apis.map.qq.com/ws/location/v1/ip?key=${key}`;
-  return await loadJSONP(url, callback);
+  // const url = `https://apis.map.qq.com/ws/location/v1/ip?key=${key}`;
+  // return await loadJSONP(url, callback);
+  const url = await fetch(`https://apis.map.qq.com/ws/location/v1/ip?key=${key}`);
+  return await url.json();
 };
 
-// 获取腾讯地理天气信息（JSON 方式）
+// 获取腾讯地理天气信息（JSONP 方式）
 export const getTXWeather = async (key, adcode) => {
   // const callback = `jsonpCallback_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
-  const url = `https://apis.map.qq.com/ws/weather/v1/?key=${key}&adcode=${adcode}&type=now`;
-  return await loadJSONP(url, callback);
+  // const url = `https://apis.map.qq.com/ws/weather/v1/?key=${key}&adcode=${adcode}&type=now`;
+  // return await loadJSONP(url, callback);
+  const url = await fetch(`https://apis.map.qq.com/ws/weather/v1/?key=${key}&adcode=${adcode}&type=now`);
+  return await url.json();
 };
 
 // 获取高德地理位置信息
