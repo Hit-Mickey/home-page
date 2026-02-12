@@ -48,8 +48,6 @@
 
 <script setup>
 import { computed, defineComponent, h } from "vue";
-// 可前往 https://www.xicons.org 自行挑选并在此处引入
-// 此处引入的是 fa 类型
 import { Icon } from "@vicons/utils";
 import {
   Link, Blog, CompactDisc, Cloud, Compass, Book, Fire, LaptopCode, Home
@@ -65,7 +63,7 @@ const siteIcon = {
   Blog, Cloud, CompactDisc, Compass, Book, Fire, LaptopCode, Home
 };
 
-// --- 子组件 ---
+// --- 子组件 LinkItem 修改开始 ---
 const LinkItem = defineComponent({
   props: ['item'],
   setup(props) {
@@ -78,19 +76,29 @@ const LinkItem = defineComponent({
     };
 
     return () => h('div', { class: 'item cards', onClick: () => jumpLink(props.item) }, [
+      // 上半部分：图标和名称
       h('div', { class: 'main-content' }, [
         h(Icon, { size: 26 }, () => h(siteIcon[props.item.icon] || Link)),
         h('span', { class: 'name text-hidden' }, props.item.name)
       ]),
+
+      // 下半部分：网络标签（分为两行）
       h('div', { class: 'network-tags' }, [
-        props.item.ipv6 ? h('a', { href: props.item.ipv6, target: '_blank', class: 'tag ipv6', onClick: (e) => e.stopPropagation() }, 'v6') : null,
-        props.item.ipv4 ? h('a', { href: props.item.ipv4, target: '_blank', class: 'tag ipv4', onClick: (e) => e.stopPropagation() }, 'v4') : null,
-        props.item.vlan ? h('a', { href: props.item.vlan, target: '_blank', class: 'tag vlan', onClick: (e) => e.stopPropagation() }, 'VLAN') : null,
-        props.item.lan ? h('a', { href: props.item.lan, target: '_blank', class: 'tag lan', onClick: (e) => e.stopPropagation() }, 'LAN') : null,
+        // 第一排：IPv6 和 IPv4
+        h('div', { class: 'tag-row' }, [
+          props.item.ipv6 ? h('a', { href: props.item.ipv6, target: '_blank', class: 'tag ipv6', onClick: (e) => e.stopPropagation() }, 'v6') : null,
+          props.item.ipv4 ? h('a', { href: props.item.ipv4, target: '_blank', class: 'tag ipv4', onClick: (e) => e.stopPropagation() }, 'v4') : null,
+        ]),
+        // 第二排：VLAN 和 LAN
+        h('div', { class: 'tag-row' }, [
+          props.item.vlan ? h('a', { href: props.item.vlan, target: '_blank', class: 'tag vlan', onClick: (e) => e.stopPropagation() }, 'VLAN') : null,
+          props.item.lan ? h('a', { href: props.item.lan, target: '_blank', class: 'tag lan', onClick: (e) => e.stopPropagation() }, 'LAN') : null,
+        ])
       ])
     ]);
   }
 });
+// --- 子组件 LinkItem 修改结束 ---
 
 const chunkData = (arr) => {
   const result = [];
@@ -107,31 +115,27 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
 <style lang="scss" scoped>
 .links {
-  // 修改1：使用 calc 计算高度，减去顶部和底部预留高度(约160px)
   height: calc(100vh - 160px);
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center; // 垂直居中
-  align-items: center; // 水平居中
+  justify-content: center;
+  align-items: center;
 
-  // 移动端适配
   @media (max-width: 720px) {
     height: auto;
     margin-top: 20px;
     display: block;
   }
 
-  // 包裹层宽度控制
   .content-wrapper {
     width: 100%;
   }
 
   .section-wrapper {
-    margin-bottom: 20px; // 版块间距
+    margin-bottom: 20px;
     width: 100%;
 
-    // 如果是最后一个版块，去掉底部间距
     &:last-child {
       margin-bottom: 0;
     }
@@ -184,18 +188,15 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
     }
   }
 
-  // 修改2：自适应高度
   .link-all {
     height: auto !important;
     min-height: 0;
-
-    // 内容垂直居中
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 
     :deep(.item) {
-      height: 110px;
+      height: 110x;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -223,46 +224,56 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         .name {
           font-size: 1.1rem;
           margin-left: 8px;
-          // 确保字体跟随全局
           font-family: inherit;
         }
       }
 
+      // --- 样式修改开始 ---
       .network-tags {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column; // 纵向排列
+        align-items: center; // 水平居中
         justify-content: center;
-        gap: 6px;
         width: 100%;
+        gap: 4px; // 行间距
+
+        .tag-row {
+          display: flex;
+          justify-content: center; // 行内标签居中
+          gap: 6px; // 标签间距
+          width: 100%;
+
+          // 如果某一行是空的，自动隐藏
+          &:empty {
+            display: none;
+          }
+        }
 
         .tag {
-          // --- 核心修改部分 ---
           font-size: 14px;
-          padding: 2px 8px; // 稍微加宽一点
-          border-radius: 6px; // 圆角稍微大一点
+          padding: 2px 8px;
+          border-radius: 6px;
           text-decoration: none;
           line-height: 1.2;
           transition: all 0.3s;
-
-          // 字体设置：跟随主页
           font-family: inherit;
-          font-weight: normal; // 去除粗体，使其更协调（如果喜欢粗体可改为 bold）
-          color: inherit; // 继承父级文字颜色（通常是白色）
+          font-weight: normal;
+          color: inherit;
 
-          // 背景设置：统一为半透明磨砂风格，不再使用红绿蓝
+          // 统一的磨砂风格样式
           background-color: rgba(255, 255, 255, 0.15);
-          border: 1px solid rgba(255, 255, 255, 0.1); // 微弱的边框
-          backdrop-filter: blur(4px); // 磨砂玻璃效果
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(4px);
 
           &:hover {
-            background-color: rgba(255, 255, 255, 0.3); // 悬停时变亮
+            background-color: rgba(255, 255, 255, 0.3);
             border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-1px); // 微微上浮
+            transform: translateY(-1px);
           }
-
-          // --- 修改结束 ---
         }
       }
+
+      // --- 样式修改结束 ---
 
       @media (min-width: 720px) and (max-width: 820px) {
         .name {
@@ -271,7 +282,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
       }
 
       @media (max-width: 720px) {
-        height: 100px;
+        height: 100px; // 移动端稍微紧凑一点
 
         .main-content {
           margin-bottom: 4px;
