@@ -1,7 +1,9 @@
 {
   "name": "home",
   "author": "imsyy",
+  "author2": "mickey",
   "github": "https://github.com/imsyy/home",
+  "github2": "https://github.com/HIT-Mickey/home-page",
   "home": "https://imsyy.top",
   "private": true,
   "version": "4.1.4",
