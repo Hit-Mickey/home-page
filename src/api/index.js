@@ -54,20 +54,16 @@ export const getHitokoto = async () => {
  */
 // 获取腾讯地理位置信息（JSONP 方式）
 export const getTXAdcode = async (key) => {
-  // const callback = `jsonpCallback_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
-  // const url = `https://apis.map.qq.com/ws/location/v1/ip?key=${key}`;
-  // return await loadJSONP(url, callback);
-  const url = await fetch(`https://apis.map.qq.com/ws/location/v1/ip?key=${key}`);
-  return await url.json();
+  const callback = `jsonpCallback_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+  const url = `https://apis.map.qq.com/ws/location/v1/ip?key=${key}&output=jsonp&callback=${callback}`;
+  return await loadJSONP(url, callback);
 };
 
 // 获取腾讯地理天气信息（JSONP 方式）
 export const getTXWeather = async (key, adcode) => {
-  // const callback = `jsonpCallback_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
-  // const url = `https://apis.map.qq.com/ws/weather/v1/?key=${key}&adcode=${adcode}&type=now`;
-  // return await loadJSONP(url, callback);
-  const url = await fetch(`https://apis.map.qq.com/ws/weather/v1/?key=${key}&adcode=${adcode}&type=now`);
-  return await url.json();
+  const callback = `jsonpCallback_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+  const url = `https://apis.map.qq.com/ws/weather/v1/?key=${key}&adcode=${adcode}&type=now&output=jsonp&callback=${callback}`;
+  return await loadJSONP(url, callback);
 };
 
 // 获取高德地理位置信息

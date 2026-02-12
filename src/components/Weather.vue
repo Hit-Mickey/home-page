@@ -52,6 +52,8 @@ const getTemperature = (min, max) => {
 };
 
 const getTXW = async () => {
+  console.log("正在使用腾讯天气接口");
+  // 获取 Adcode
   const adCode = (await getTXAdcode(txkey));
   if (String(adCode.status) !== "0") {
     throw "天气信息获取失败";
