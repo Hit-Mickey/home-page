@@ -250,7 +250,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         }
 
         .tag {
-          font-size: 14px;
+          font-size: 12px;
           padding: 2px 8px;
           border-radius: 6px;
           text-decoration: none;
