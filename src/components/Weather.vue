@@ -18,12 +18,11 @@
 </template>
 
 <script setup>
-import { getTXAdcode, getTXWeather, getTXAdcodeS, getTXWeatherS, getGDAdcode, getGDAdcodeI, getGDWeather, getIPV4Addr } from "@/api";
+import { getTXAdcode, getTXWeather, getGDAdcode, getGDAdcodeI, getGDWeather, getIPV4Addr } from "@/api";
 import { Error } from "@icon-park/vue-next";
 
 //高德key，腾讯key
 const txkey = import.meta.env.VITE_TX_WEATHER_KEY;
-const txskey = import.meta.env.VITE_TX_WEATHER_SKEY
 const gdkey = import.meta.env.VITE_GD_WEATHER_KEY;
 
 // 天气数据
@@ -53,64 +52,31 @@ const getTemperature = (min, max) => {
 };
 
 const getTXW = async () => {
-  if (!txskey) {
-    console.log("正在使用腾讯天气接口");
-    // 获取 Adcode
-    const adCode = (await getTXAdcode(txkey));
-    if (String(adCode.status) !== "0") {
-      throw "天气信息获取失败";
-    };
-    weatherData.adCode = {
-      city: adCode.result.ad_info.district || adCode.result.ad_info.city || adCode.result.ad_info.province || "未知地区",
-      adcode: adCode.result.ad_info.adcode,
-    };
-    // 获取天气信息
-    if (weatherData.adCode.adcode == null) {
-      throw "天气信息获取失败";
-    };
-    const txWeather = (await getTXWeather(txkey, weatherData.adCode.adcode));
-    if (String(txWeather.status) !== "0") {
-      throw "天气信息获取失败";
-    };
-    const realtimeData = txWeather.result.realtime?.[0];
-    if (!realtimeData?.infos) {
-      throw "天气信息获取失败";
-    };
-    weatherData.weather = {
-      weather: realtimeData.infos.weather,
-      temperature: realtimeData.infos.temperature,
-      winddirection: realtimeData.infos.wind_direction,
-      windpower: realtimeData.infos.wind_power,
-    };
-  } else {
-    console.log("正在通过鉴权模式使用腾讯天气接口");
-    // 获取 Adcode
-    const adCode = (await getTXAdcodeS(txkey, txskey));
-    if (String(adCode?.status) !== "0") {
-      throw "天气信息获取失败";
-    };
-    weatherData.adCode = {
-      city: adCode.result.ad_info.district || adCode.result.ad_info.city || adCode.result.ad_info.province || "未知地区",
-      adcode: adCode.result.ad_info.adcode,
-    };
-    // 获取天气信息
-    if (weatherData.adCode.adcode == null) {
-      throw "天气信息获取失败";
-    };
-    const txWeather = (await getTXWeatherS(txkey, weatherData.adCode.adcode, txskey));
-    if (String(txWeather.status) !== "0") {
-      throw "天气信息获取失败";
-    };
-    const realtimeData = txWeather.result.realtime?.[0];
-    if (!realtimeData?.infos) {
-      throw "天气信息获取失败";
-    };
-    weatherData.weather = {
-      weather: realtimeData.infos.weather,
-      temperature: realtimeData.infos.temperature,
-      winddirection: realtimeData.infos.wind_direction,
-      windpower: realtimeData.infos.wind_power,
-    };
+  const adCode = (await getTXAdcode(txkey));
+  if (String(adCode.status) !== "0") {
+    throw "天气信息获取失败";
+  };
+  weatherData.adCode = {
+    city: adCode.result.ad_info.district || adCode.result.ad_info.city || adCode.result.ad_info.province || "未知地区",
+    adcode: adCode.result.ad_info.adcode,
+  };
+  // 获取天气信息
+  if (weatherData.adCode.adcode == null) {
+    throw "天气信息获取失败";
+  };
+  const txWeather = (await getTXWeather(txkey, weatherData.adCode.adcode));
+  if (String(txWeather.status) !== "0") {
+    throw "天气信息获取失败";
+  };
+  const realtimeData = txWeather.result.realtime?.[0];
+  if (!realtimeData?.infos) {
+    throw "天气信息获取失败";
+  };
+  weatherData.weather = {
+    weather: realtimeData.infos.weather,
+    temperature: realtimeData.infos.temperature,
+    winddirection: realtimeData.infos.wind_direction,
+    windpower: realtimeData.infos.wind_power,
   };
 };
 
