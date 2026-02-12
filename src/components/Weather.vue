@@ -54,7 +54,7 @@ const getTemperature = (min, max) => {
 const getTXW = async () => {
   const adCode = (await getTXAdcode(txkey));
   if (String(adCode.status) !== "0") {
-    throw "天气信息获取失败";
+    throw "1天气信息获取失败";
   };
   weatherData.adCode = {
     city: adCode.result.ad_info.district || adCode.result.ad_info.city || adCode.result.ad_info.province || "未知地区",
@@ -62,15 +62,15 @@ const getTXW = async () => {
   };
   // 获取天气信息
   if (weatherData.adCode.adcode == null) {
-    throw "天气信息获取失败";
+    throw "2天气信息获取失败";
   };
   const txWeather = (await getTXWeather(txkey, weatherData.adCode.adcode));
   if (String(txWeather.status) !== "0") {
-    throw "天气信息获取失败";
+    throw "3天气信息获取失败";
   };
   const realtimeData = txWeather.result.realtime?.[0];
   if (!realtimeData?.infos) {
-    throw "天气信息获取失败";
+    throw "4天气信息获取失败";
   };
   weatherData.weather = {
     weather: realtimeData.infos.weather,
@@ -81,7 +81,6 @@ const getTXW = async () => {
 };
 
 const getGDW = async () => {
-  // 获取 Adcode
   const adCode = (await getGDAdcode(gdkey));
   let adCodei = null;
   if (String(adCode?.infocode) !== "10000" || String(adCode?.status) !== "1") {
