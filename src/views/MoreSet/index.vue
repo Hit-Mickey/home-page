@@ -1,14 +1,8 @@
 <template>
   <div class="set" @mouseenter="closeShow = true" @mouseleave="closeShow = false" @click.stop>
     <transition name="el-fade-in-linear">
-      <close-one
-        class="close"
-        theme="filled"
-        size="28"
-        fill="#ffffff60"
-        v-show="closeShow"
-        @click="store.setOpenState = false"
-      />
+      <close-one class="close" theme="filled" size="28" fill="#ffffff60" v-show="closeShow"
+        @click="store.setOpenState = false" />
     </transition>
     <el-row :gutter="40">
       <el-col :span="12" class="left">
@@ -19,7 +13,7 @@
         <div class="version">
           <div class="num">v&nbsp;{{ config.version }}</div>
           <el-tooltip content="Github 源代码仓库" placement="right" :show-arrow="false">
-            <github-one class="github" theme="outline" size="24" @click="jumpTo(config.github)" />
+            <github-one class="github" theme="outline" size="24" @click="jumpTo(config.github2)" />
           </el-tooltip>
         </div>
         <el-card class="update">
@@ -75,12 +69,10 @@ const siteUrl = computed(() => {
 // 更新日志
 const upData = reactive({
   new: [
-    "采用 Vue 进行重构",
-    "音乐歌单支持快速自定义",
-    "壁纸支持个性化设置",
-    "音乐播放器支持音量控制",
+    "网站列表支持多链接",
+    "增加腾讯天气 API",
   ],
-  fix: ["修复天气 API", "时光胶囊显示错误", "移动端动画及细节", "图标更换为 IconPark"],
+  fix: ["修复高德天气 API"],
 });
 
 // 跳转源代码仓库
@@ -137,6 +129,7 @@ const jumpTo = (url) => {
         width: 100%;
         height: 260px;
         min-height: 140px;
+
         .bg {
           font-size: 5rem;
         }
@@ -150,14 +143,17 @@ const jumpTo = (url) => {
           .bg {
             font-size: 4.5rem;
           }
+
           .sm {
             font-size: 1.7rem;
           }
         }
+
         @media (max-width: 825px) {
           .bg {
             font-size: 3.8rem;
           }
+
           .sm {
             font-size: 1.3rem;
           }

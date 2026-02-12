@@ -53,24 +53,6 @@ export const getHitokoto = async () => {
  * JSONP 请求模块
  */
 // JSONP 请求函数，并返回 JSON 【关于为什么要有这个呢...请腾讯自觉扫一下（x）】
-// const loadJSONP = (url, callbackName) => {
-//   return new Promise((resolve, reject) => {
-//     // 定义 JSONP 回调函数
-//     (window)[callbackName] = (data) => {
-//       resolve(data); // 解析 JSON 数据
-//       delete (window)[callbackName]; // 清理全局变量，防止污染
-//     };
-//     // 创建 script 标签
-//     const script = document.createElement('script');
-//     script.src = url;
-//     script.onerror = () => {
-//       reject(new Error('JSONP 请求失败'));
-//       delete (window)[callbackName]; // 出错时也要清理
-//     };
-//     document.body.appendChild(script);
-//   });
-// };
-
 const loadJSONP = (url, callbackName) => {
   return new Promise((resolve, reject) => {
     // 1. 定义 script 标签（先不赋值 src，防止部分浏览器提前触发）
