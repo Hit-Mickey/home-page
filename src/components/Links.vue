@@ -250,15 +250,15 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
           color: inherit; // 继承父级文字颜色（通常是白色）
 
           // 背景设置：统一为半透明磨砂风格，不再使用红绿蓝
-          background-color: rgba(255, 255, 255, 0.15);
-          border: 1px solid rgba(255, 255, 255, 0.1); // 微弱的边框
-          backdrop-filter: blur(4px); // 磨砂玻璃效果
+          // background-color: rgba(255, 255, 255, 0.15);
+          // border: 1px solid rgba(255, 255, 255, 0.1); // 微弱的边框
+          // backdrop-filter: blur(4px); // 磨砂玻璃效果
 
-          &:hover {
-            background-color: rgba(255, 255, 255, 0.3); // 悬停时变亮
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-1px); // 微微上浮
-          }
+          // &:hover {
+          //   background-color: rgba(255, 255, 255, 0.3); // 悬停时变亮
+          //   border-color: rgba(255, 255, 255, 0.4);
+          //   transform: translateY(-1px); // 微微上浮
+          // }
 
           // --- 修改结束 ---
         }
