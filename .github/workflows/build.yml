@@ -32,7 +32,7 @@ jobs:
       - name: Copy siteLinks.json
         run: |
           if (-not (Test-Path .env)) {
-            Copy-Item ../../src/siteLinks.json.example ../../src/siteLinks.json
+            Copy-Item src\assets\siteLinks.json.example src\assets\siteLinks.json
           } else {
             Write-Host "siteLinks.json file already exists. Skipping the copy step."
           }
