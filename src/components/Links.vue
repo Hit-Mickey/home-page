@@ -196,7 +196,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 6px 10px;
+      padding: 6px 10px 6px 10px; //含义：上6px，右10px，下15px，左10px
       animation: fade 0.5s;
       position: relative;
       margin-bottom: 15px;
@@ -213,7 +213,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         justify-content: center;
         width: 100%;
         cursor: pointer;
-        margin-bottom: 8px;
+        margin-bottom: 16px; //控制Nginxui和底部链接的间距
 
         .name {
           font-size: 1.1rem;
@@ -229,11 +229,11 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         align-items: center;
         justify-content: center;
         width: 100%;
-        gap: 4px; // 标签之间的间距
+        gap: 10px; // 标签之间的间距
 
         .tag {
           font-size: 12px; // 保持原有字体大小
-          padding: 2px 3px; // 减小左右内边距 (原为8px)，确保一行能放下4个
+          padding: 2px 4px; // 减小左右内边距 (原为8px)，确保一行能放下4个
           border-radius: 6px;
           text-decoration: none;
           line-height: 1.2;

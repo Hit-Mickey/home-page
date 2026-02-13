@@ -68,8 +68,29 @@ export const getTimeCapsule = () => {
   };
 };
 
-// 欢迎提示
+// --- 1. 新增：样式注入逻辑 (只需执行一次) ---
+const injectMessageStyle = () => {
+  if (document.getElementById("hello-message-style")) return;
+  const style = document.createElement("style");
+  style.id = "hello-message-style";
+  style.innerHTML = `
+    .no-icon-msg {
+      justify-content: center !important;
+    }
+    .no-icon-msg .el-message__content {
+      margin-left: 0 !important;
+      padding-left: 0 !important;
+    }
+    .no-icon-msg .el-message__icon {
+      display: none !important;
+    }
+  `;
+  document.head.appendChild(style);
+};
+
 export const helloInit = () => {
+  injectMessageStyle();
+
   const hour = new Date().getHours();
   let hello = null;
   if (hour < 6) {
@@ -89,9 +110,12 @@ export const helloInit = () => {
   } else {
     hello = "夜深了";
   }
+
   ElMessage({
     dangerouslyUseHTMLString: true,
-    message: `<strong>${hello}</strong>`,
+    message: `<strong>♥ ${hello} 欢迎来到我的世界 ♥</strong>`,
+    icon: h('span'), //去除i标志
+    customClass: 'no-icon-msg',
   });
 };
 
@@ -140,5 +164,5 @@ export const siteDateStatistics = (startDate) => {
     months += 12;
   }
 
-  return `本站已经苟活了 ${years} 年 ${months} 月 ${days} 天`;
+  return `本站已经存活了 ${years} 年 ${months} 月 ${days} 天`;
 };
