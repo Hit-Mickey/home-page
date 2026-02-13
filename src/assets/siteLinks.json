@@ -3,7 +3,7 @@
     {
       "icon": "Compass",
       "name": "NginxUI",
-      "link": "https://nginx-mingfan.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://nginx-mingfan.speedtest.mingqian.online",
       "ipv6": "https://nginx.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:1000",
@@ -12,7 +12,7 @@
     {
       "icon": "Cloud",
       "name": "openlist",
-      "link": "https://openlist.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://openlist.speedtest.mingqian.online",
       "ipv6": "https://openlist.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:2000",
@@ -21,7 +21,7 @@
     {
       "icon": "Link",
       "name": "DDNS-Go",
-      "link": "https://ddns.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://ddns.speedtest.mingqian.online",
       "ipv6": "https://ddns.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:3000",
@@ -30,7 +30,7 @@
     {
       "icon": "Cloud",
       "name": "Jellyfin",
-      "link": "https://jellyfin.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://jellyfin.speedtest.mingqian.online",
       "ipv6": "https://jellyfin.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:4000",
@@ -39,7 +39,7 @@
     {
       "icon": "Link",
       "name": "TMM",
-      "link": "https://tmm.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://tmm.speedtest.mingqian.online",
       "ipv6": "https://tmm.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:6003",
@@ -48,7 +48,7 @@
     {
       "icon": "LaptopCode",
       "name": "Glances",
-      "link": "https://glances.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://glances.speedtest.mingqian.online",
       "ipv6": "https://glances.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:61208",
@@ -57,7 +57,7 @@
     {
       "icon": "Cloud",
       "name": "百度网盘",
-      "link": "https://baidunetdisk.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://baidunetdisk.speedtest.mingqian.online",
       "ipv6": "https://baidunetdisk.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:7000",
@@ -66,7 +66,7 @@
     {
       "icon": "Cloud",
       "name": "迅雷下载",
-      "link": "https://xunlei.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://xunlei.speedtest.mingqian.online",
       "ipv6": "https://xunlei.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:6005",
@@ -75,7 +75,7 @@
     {
       "icon": "Cloud",
       "name": "qBittorrent",
-      "link": "https://qbittorrent.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://qbittorrent.speedtest.mingqian.online",
       "ipv6": "https://qbittorrent.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:5000",
@@ -84,7 +84,7 @@
     {
       "icon": "Cloud",
       "name": "Resilio Sync",
-      "link": "https://resiliosync.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://resiliosync.speedtest.mingqian.online",
       "ipv6": "https://resiliosync.speedtest.mingqian.space:1443",
       "vlan": "http://10.2.1.2:6660",
@@ -93,7 +93,7 @@
     {
       "icon": "Book",
       "name": "Typora Docs",
-      "link": "https://typora_documents.speedtest.mingqian.online",
+      "link": "",
       "ipv4": "https://typora_documents.speedtest.mingqian.online",
       "ipv6": "https://typora_documents.speedtest.mingqian.space:84/typora_documents/",
       "vlan": "http://10.2.1.2:83/typora_documents/",
@@ -102,7 +102,7 @@
     {
       "icon": "Fire",
       "name": "Clash",
-      "link": "https://clash.speedtest.mingqian.online/ui",
+      "link": "",
       "ipv4": "https://clash.speedtest.mingqian.online/ui",
       "ipv6": "https://clash.speedtest.mingqian.space:1443/ui",
       "vlan": "http://10.2.1.2:9000/ui",
@@ -113,7 +113,7 @@
     {
       "icon": "Compass",
       "name": "NginxUI",
-      "link": "https://nginx-rainyun.mingqian.online",
+      "link": "",
       "ipv4": "https://nginx-rainyun.mingqian.online",
       "ipv6": "",
       "vlan": "http://10.2.1.1:1000",
@@ -122,7 +122,7 @@
     {
       "icon": "LaptopCode",
       "name": "EasyTier",
-      "link": "https://easytierdashboard.mingqian.online",
+      "link": "",
       "ipv4": "https://easytierdashboard.mingqian.online",
       "ipv6": "",
       "vlan": "http://10.2.1.1:11211",

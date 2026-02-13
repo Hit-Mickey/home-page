@@ -1,0 +1,22 @@
+{
+  "home": [
+    {
+      "icon": "Compass",
+      "name": "NginxUI",
+      "ipv4": "",
+      "ipv6": "",
+      "vlan": "",
+      "lan": ""
+    }
+  ],
+  "cloud": [
+    {
+      "icon": "Compass",
+      "name": "NginxUI",
+      "ipv4": "",
+      "ipv6": "",
+      "vlan": "",
+      "lan": ""
+    }
+  ]
+}

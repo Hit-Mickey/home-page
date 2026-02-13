@@ -29,6 +29,13 @@ jobs:
           } else {
             Write-Host ".env file already exists. Skipping the copy step."
           }
+      - name: Copy siteLinks.json
+        run: |
+          if (-not (Test-Path .env)) {
+            Copy-Item src/siteLinks.json.example src/siteLinks.json
+          } else {
+            Write-Host "siteLinks.json file already exists. Skipping the copy step."
+          }
       # 安装项目依赖
       - name: Install Dependencies
         run: npm install

@@ -15,6 +15,6 @@
     "name": "Email",
     "icon": "/images/icon/email.png",
     "tip": "来封 Email ~",
-    "url": "mailto:hitmickeyq@qq.com"
+    "url": "https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=hitmickeyq@qq.com"
   }
 ]
