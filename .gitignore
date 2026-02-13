@@ -24,10 +24,4 @@ dist-ssr
 *.sln
 *.sw?
 
-public/images/mine/*
-
-!public/images/mine/background1.png
-!public/images/mine/background2.png
-!public/images/mine/background3.png
-
 src/assets/siteLinks.json

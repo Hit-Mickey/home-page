@@ -6,7 +6,7 @@
   "github2": "https://github.com/HIT-Mickey/home-page",
   "home": "https://imsyy.top",
   "private": true,
-  "version": "mickey-1.0",
+  "version": "mickey-2.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",

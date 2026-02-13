@@ -26,10 +26,18 @@
           </a>
         </span>
         <!-- 站点备案 -->
+        <!-- ICP备案 -->
         <span>
           &amp;
           <a v-if="siteIcp" href="https://beian.miit.gov.cn" target="_blank">
             {{ siteIcp }}
+          </a>
+        </span>
+        <!-- 萌ICP备案 -->
+        <span>
+          &amp;
+          <a v-if="msiteIcp" href="https://icp.gov.moe/?keyword=20260084" target="_blank">
+            {{ msiteIcp }}
           </a>
         </span>
       </div>
@@ -61,6 +69,7 @@ const startYear = ref(
     import.meta.env.VITE_SITE_START.substring(0, 4) : null
 );
 const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
+const msiteIcp = ref(import.meta.env.VITE_SITE_MICP);
 const siteAuthor = ref(import.meta.env.VITE_SITE_AUTHOR);
 const siteUrl = computed(() => {
   const url = import.meta.env.VITE_SITE_URL;

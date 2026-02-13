@@ -1,0 +1,24 @@
+{
+  "home": [
+    {
+      "icon": "Compass",
+      "name": "NginxUI",
+      "link": "",
+      "ipv4": "https://a.example.com",
+      "ipv6": "https://a.example.com",
+      "vlan": "http://10.2.1.2:1000",
+      "lan": "http://192.168.5.2:1000"
+    }
+  ],
+  "cloud": [
+    {
+      "icon": "Compass",
+      "name": "NginxUI",
+      "link": "",
+      "ipv4": "https://a.example.com",
+      "ipv6": "https://a.example.com",
+      "vlan": "http://10.2.1.2:1000",
+      "lan": "http://192.168.5.2:1000"
+    }
+  ]
+}
