@@ -110,32 +110,36 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
 <style lang="scss" scoped>
 .links {
-  height: calc(100vh - 160px);
+  /* 【核心修改1】去掉强制高度和垂直居中，改为自适应高度 */
+  /* 原代码是 height: calc(100vh - 160px); 这会导致它和上面的卡片距离拉得很开 */
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* 去掉 justify-content: center; 让它自然跟随上面的卡片排列 */
   align-items: center;
 
   @media (max-width: 720px) {
-    height: auto;
     margin-top: 20px;
-    display: block;
+    padding-bottom: 40px;
   }
 
   .content-wrapper {
     width: 100%;
+    /* 【核心修改2】设置家庭服务器和雨云服务器之间的固定间距 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* 这里控制“下两个板块”之间的距离，建议与外层保持一致 */
   }
 
   .section-wrapper {
-    margin-bottom: 20px;
+    /* 【核心修改3】移除原本的底部边距，完全由 gap 控制 */
+    margin-bottom: 0;
     width: 100%;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 
+  /* --- 以下代码保持原样 --- */
   .line {
     margin: 0 0.25rem 0.5rem;
     font-size: 1.1rem;
@@ -197,7 +201,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 6px 10px 6px 10px; //含义：上6px，右10px，下15px，左10px
+      padding: 6px 10px 6px 10px;
       animation: fade 0.5s;
       position: relative;
       margin-bottom: 15px;
@@ -214,7 +218,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         justify-content: center;
         width: 100%;
         cursor: pointer;
-        margin-bottom: 16px; //控制Nginxui和底部链接的间距
+        margin-bottom: 16px;
 
         .name {
           font-size: 1.1rem;
@@ -223,18 +227,17 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
         }
       }
 
-      // --- 样式修改开始 ---
       .network-tags {
         display: flex;
-        flex-direction: row; // 改为水平排列
+        flex-direction: row;
         align-items: center;
         justify-content: center;
         width: 100%;
-        gap: 10px; // 标签之间的间距
+        gap: 10px;
 
         .tag {
-          font-size: 12px; // 保持原有字体大小
-          padding: 2px 4px; // 减小左右内边距 (原为8px)，确保一行能放下4个
+          font-size: 12px;
+          padding: 2px 4px;
           border-radius: 6px;
           text-decoration: none;
           line-height: 1.2;
@@ -242,9 +245,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
           font-family: inherit;
           font-weight: normal;
           color: inherit;
-          white-space: nowrap; // 防止文字换行
-
-          // 统一的磨砂风格样式
+          white-space: nowrap;
           background-color: rgba(255, 255, 255, 0.15);
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(4px);
@@ -256,8 +257,6 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
           }
         }
       }
-
-      // --- 样式修改结束 ---
 
       @media (min-width: 720px) and (max-width: 820px) {
         .name {

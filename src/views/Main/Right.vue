@@ -36,6 +36,14 @@ const siteUrl = computed(() => {
   // flex: 1 0 0%;
   width: 50%;
   margin-left: 0.75rem;
+
+  height: 100%; // 撑满高度，让 justify-content: center 生效
+  display: flex; // 开启 Flex 布局
+  flex-direction: column; // 垂直排列子元素
+  justify-content: center; // 【垂直居中】：让内容整体浮在屏幕中间
+  align-items: center; // 水平居中
+  gap: 20px; // 【固定间距】：控制 [时间卡片] 和 [服务器列表] 之间的距离
+
   .logo {
     width: 100%;
     font-family: "Pacifico-Regular";
@@ -46,23 +54,31 @@ const siteUrl = computed(() => {
     text-align: center;
     transition: transform 0.3s;
     animation: fade 0.5s;
+    z-index: 10; // 防止被遮挡
+
+
     &:active {
       transform: scale(0.95);
     }
+
     @media (min-width: 721px) {
       display: none;
     }
+
     @media (max-height: 720px) {
       width: calc(100% + 6px);
       top: 43.26px; // 721px * 0.06
     }
+
     @media (max-width: 390px) {
-        width: 391px;
+      width: 391px;
     }
   }
+
   @media (max-width: 720px) {
     margin-left: 0;
     width: 100%;
+
     &.hidden {
       display: none;
     }

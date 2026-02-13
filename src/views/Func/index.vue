@@ -61,15 +61,8 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .function {
-  // --- 修改 1: 移除固定高度 165px，改为自适应 ---
   height: auto;
-
-  // --- 修改 2: 使用 margin-top 让模块整体下移 (数值可根据需要调整) ---
-  margin-top: 20vh;
-
-  // --- 修改 3: 压缩模块底部的外边距，缩短与下方服务器模块的间隔 ---
-  margin-bottom: -100px;
-
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
