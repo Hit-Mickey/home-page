@@ -110,13 +110,10 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
 <style lang="scss" scoped>
 .links {
-  /* 【核心修改1】去掉强制高度和垂直居中，改为自适应高度 */
-  /* 原代码是 height: calc(100vh - 160px); 这会导致它和上面的卡片距离拉得很开 */
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
-  /* 去掉 justify-content: center; 让它自然跟随上面的卡片排列 */
   align-items: center;
 
   @media (max-width: 720px) {
@@ -126,20 +123,16 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
   .content-wrapper {
     width: 100%;
-    /* 【核心修改2】设置家庭服务器和雨云服务器之间的固定间距 */
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    /* 这里控制“下两个板块”之间的距离，建议与外层保持一致 */
+    gap: 20px; //这里控制“下两个板块”之间的距离，建议与外层保持一致
   }
 
   .section-wrapper {
-    /* 【核心修改3】移除原本的底部边距，完全由 gap 控制 */
     margin-bottom: 0;
     width: 100%;
   }
 
-  /* --- 以下代码保持原样 --- */
   .line {
     margin: 0 0.25rem 0.5rem;
     font-size: 1.1rem;
@@ -156,20 +149,36 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
   .swiper {
     width: 100%;
-    padding: 0 10px;
+    padding: 0px 10px 15px 10px;
     z-index: 0;
+    position: relative; // 确保分页器相对于 swiper 定位
 
-    .swiper-pagination {
-      position: relative;
-      margin-top: 10px;
+    :deep(.swiper-pagination) {
+      position: absolute;
+      bottom: 0px !important;
+      left: 50% !important;
+      transform: translateX(-50%);
+      width: fit-content !important;
       display: flex;
-      flex-direction: row;
       align-items: center;
       justify-content: center;
+      padding: 6px 12px; //底座内边距
+      z-index: 1;
 
-      :deep(.swiper-pagination-bullet) {
+      background-color: rgba(0, 0, 0, 0.25) !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 40px;
+
+      /* 当只有一页时，Swiper 会自动加上这个类 */
+      &.swiper-pagination-lock {
+        display: none !important;
+      }
+
+      .swiper-pagination-bullet {
         background-color: #fff;
-        width: 20px;
+        width: 18px;
         height: 4px;
         margin: 0 4px;
         border-radius: 4px;
@@ -178,10 +187,11 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 
         &.swiper-pagination-bullet-active {
           opacity: 1;
+          width: 25px;
         }
 
         &:hover {
-          opacity: 1;
+          opacity: 1; // 增加悬浮效果，反馈可点击性
         }
       }
     }
