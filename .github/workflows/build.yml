@@ -27,9 +27,9 @@ jobs:
           if (-not (Test-Path .env)) {
             Copy-Item .env.example .env
             Copy-Item src\assets\siteLinks.json.example src\assets\siteLinks.json
+            Copy-Item src\assets\socialLinks.json.example src\assets\socialLinks.json
           } else {
-            Write-Host ".env file already exists. Skipping the copy step."
-            Write-Host "siteLinks.json file already exists. Skipping the copy step."
+            Write-Host "file already exists. Skipping the copy step."
           }
       # 安装项目依赖
       - name: Install Dependencies
