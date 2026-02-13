@@ -82,18 +82,12 @@ const LinkItem = defineComponent({
         h('span', { class: 'name text-hidden' }, props.item.name)
       ]),
 
-      // 下半部分：网络标签（分为两行）
+      // 下半部分：网络标签（所有标签平铺在一行）
       h('div', { class: 'network-tags' }, [
-        // 第一排：IPv6 和 IPv4
-        h('div', { class: 'tag-row' }, [
-          props.item.ipv6 ? h('a', { href: props.item.ipv6, target: '_blank', class: 'tag ipv6', onClick: (e) => e.stopPropagation() }, 'v6') : null,
-          props.item.ipv4 ? h('a', { href: props.item.ipv4, target: '_blank', class: 'tag ipv4', onClick: (e) => e.stopPropagation() }, 'v4') : null,
-        ]),
-        // 第二排：VLAN 和 LAN
-        h('div', { class: 'tag-row' }, [
-          props.item.vlan ? h('a', { href: props.item.vlan, target: '_blank', class: 'tag vlan', onClick: (e) => e.stopPropagation() }, 'VLAN') : null,
-          props.item.lan ? h('a', { href: props.item.lan, target: '_blank', class: 'tag lan', onClick: (e) => e.stopPropagation() }, 'LAN') : null,
-        ])
+        props.item.ipv6 ? h('a', { href: props.item.ipv6, target: '_blank', class: 'tag ipv6', onClick: (e) => e.stopPropagation() }, 'v6') : null,
+        props.item.ipv4 ? h('a', { href: props.item.ipv4, target: '_blank', class: 'tag ipv4', onClick: (e) => e.stopPropagation() }, 'v4') : null,
+        props.item.vlan ? h('a', { href: props.item.vlan, target: '_blank', class: 'tag vlan', onClick: (e) => e.stopPropagation() }, 'VLAN') : null,
+        props.item.lan ? h('a', { href: props.item.lan, target: '_blank', class: 'tag lan', onClick: (e) => e.stopPropagation() }, 'LAN') : null,
       ])
     ]);
   }
@@ -196,7 +190,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
     justify-content: center;
 
     :deep(.item) {
-      height: 110x;
+      height: 110px;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -231,27 +225,15 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
       // --- 样式修改开始 ---
       .network-tags {
         display: flex;
-        flex-direction: column; // 纵向排列
-        align-items: center; // 水平居中
+        flex-direction: row; // 改为水平排列
+        align-items: center;
         justify-content: center;
         width: 100%;
-        gap: 4px; // 行间距
-
-        .tag-row {
-          display: flex;
-          justify-content: center; // 行内标签居中
-          gap: 6px; // 标签间距
-          width: 100%;
-
-          // 如果某一行是空的，自动隐藏
-          &:empty {
-            display: none;
-          }
-        }
+        gap: 4px; // 标签之间的间距
 
         .tag {
-          font-size: 12px;
-          padding: 2px 8px;
+          font-size: 12px; // 保持原有字体大小
+          padding: 2px 3px; // 减小左右内边距 (原为8px)，确保一行能放下4个
           border-radius: 6px;
           text-decoration: none;
           line-height: 1.2;
@@ -259,6 +241,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
           font-family: inherit;
           font-weight: normal;
           color: inherit;
+          white-space: nowrap; // 防止文字换行
 
           // 统一的磨砂风格样式
           background-color: rgba(255, 255, 255, 0.15);
@@ -282,7 +265,7 @@ const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
       }
 
       @media (max-width: 720px) {
-        height: 100px; // 移动端稍微紧凑一点
+        height: 100px;
 
         .main-content {
           margin-bottom: 4px;
