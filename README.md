@@ -1,27 +1,12 @@
 简体中文 | [English](./README_EN.md)
 
-> [!IMPORTANT]
-> ## 致大家
-> 此项目最初只是一个简单的主页。然而，随着越来越多的小伙伴发现了这个项目，它受到了大量本不应有的关注。而且，此项目作为初学前端的作品，其代码相当杂乱且质量低下。此外，该项目还遭到众多不明资源站或下载站的倒卖，致使许多不明真相的购买者从源代码中找到本人的联系方式进行问题咨询或提出功能需求。由于目前个人原因，该仓库进行存档，敬请谅解！
-
 <p>
-<strong><h2>無名の主页</h2></strong>
-简单的小主页，原来的看够了，重新弄了一个
+<strong><h2>谦谦的主页</h2></strong>
 </p>
 
-![無名の主页](/screenshots/main.jpg)
+![谦谦的主页](/screenshots/main.webp)
 
-> 主页的 Logo 字体已经过压缩，若用本站 Logo 以外的字母会变回默认字体，这里是 [完整字体](https://file.imsyy.top/font/Other/Pacifico-Regular.ttf)，若无法下载，可将字体目录下的 `Pacifico-Regular-all.ttf` 进行替换
-
-### 👀 Demo
-
-> 由于 CDN 缓存原因，查看最新效果可能需要 `Ctrl` + `F5` 强制刷新浏览器缓存
-
-- [無名の主页](https://www.imsyy.top)
-- [無名の主页 - Dev](https://home-imsyy.vercel.app)
-- [無名の主页 - 备用线路](https://home-5iw.pages.dev)
-
-### 🎉 功能
+### 🎉 原版功能
 
 - [x] 载入动画
 - [x] 站点简介
@@ -31,6 +16,21 @@
 - [x] 时光进度条
 - [x] 音乐播放器
 - [x] 移动端适配
+
+### 🎉 新增的功能
+
+- [x] 网站列表支持多链接
+- [x] 增加腾讯天气 API
+- [x] 增加图片壁纸随机不重复功能【强迫症必备】
+- [x] 移除音乐播放器（鸡肋功能）
+- [x] 给分页按钮增加模糊
+- [x] 增加萌ICP备案
+
+#### 修复的bug
+
+- [x] 修复高德天气 API
+- [x] 去除网页链接文字跳转
+- [x] 修复分页按钮不显示的bug
 
 ### ⚙️ 自动部署
 
@@ -96,10 +96,29 @@ docker run -p 12445:12445 -d home
 
 ```json
 {
-  "icon": "Blog",
-  "name": "博客",
-  "link": "https://blog.imsyy.top/"
-},
+  "home": [
+    {
+      "icon": "Compass",
+      "name": "NginxUI",
+      "link": "",
+      "ipv4": "https://a.example.com",
+      "ipv6": "https://a.example.com",
+      "vlan": "http://10.2.1.2:1000",
+      "lan": "http://192.168.5.2:1000"
+    }
+  ],
+  "cloud": [
+    {
+      "icon": "Compass",
+      "name": "NginxUI",
+      "link": "",
+      "ipv4": "https://a.example.com",
+      "ipv6": "https://a.example.com",
+      "vlan": "http://10.2.1.2:1000",
+      "lan": "http://192.168.5.2:1000"
+    }
+  ]
+}
 ```
 
 其中 `icon` 网站链接的图标可以在 `src/components/Links/index.vue` 中添加:
@@ -138,36 +157,21 @@ const siteIcon = {
 
 ### 天气
 
-天气及地区获取需要 `高德开放平台` 相关 API
+天气及地区获取需要相关 API
 
-- 前往 [高德开放平台控制台](https://console.amap.com/dev/index) 创建一个 `Web 服务` 类型的 `Key`，并将 `Key` 填入 `.env` 中的 `VITE_WEATHER_KEY` 中
+- 前往 [高德开放平台控制台](https://console.amap.com/dev/index) 创建一个 `Web 服务` 类型的 `Key`，并将 `Key` 填入 `.env` 中的 `VITE_GD_WEATHER_KEY` 中
+- 前往 [腾讯地图平台](https://lbs.qq.com/) 创建一个 `Web 服务` 类型的 `Key`，并将 `Key` 填入 `.env` 中的 `VITE_TX_WEATHER_KEY` 中
 
 也可自行更换其他方式
 
 ### 音乐
 
-> 本项目采用了基于 `MetingJS` 的 `Aplayer` 音乐播放器，可实现快速自定义歌单  
-> \*仅支持 **中国大陆地区**
-
-请在 `.env` 文件中更改歌曲相关参数即可实现自定义歌单列表
-
-```bash
-# 歌曲 API 地址
-VITE_SONG_API = "https://api-meting.imsyy.top"
-# 歌曲服务器 ( netease-网易云, tencent-qq音乐 )
-VITE_SONG_SERVER = "netease"
-# 播放类型 ( song-歌曲, playlist-播放列表, album-专辑, search-搜索, artist-艺术家 )
-VITE_SONG_TYPE = "playlist"
-# 播放 ID
-VITE_SONG_ID = "7452421335"
-```
+本项目中已移除，但保留了代码。如需打开，只需在`.env`中将音乐相关注释取消即可。
 
 ### 字体
 
 现采用 `HarmonyOS Sans` 开源字体，采用字体拆分，提升加载速度
 
-> 由于本站 `CDN` 已开启防盗链，**非本站域名不可访问**，请将字体引入链接更改为下方内容，否则 **自定义字体将失效**
->
 > `https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css`
 
 <details>
@@ -209,15 +213,16 @@ make clean all
 
 #### 网站背景
 
-可以在 `public/images` 中修改网站背景
+可以在 `public/images/mine` 中修改网站背景
 
 如果想要添加更多的本地图片作为网站背景，可以将图片重命名 `background+数字` 的形式，并在 `src/components/Background/index.vue` 中进行修改：
 
 ```js
-if (type == 0) {
-  // 修改此处 Math.random() 后面的第一个数字为图片的数量
-  bgUrl.value = `/images/background${Math.floor(Math.random() * 10 + 1)}.webp`;
-}
+  if (type == 0) {
+    const nextId = getBgRandom();
+    // bgUrl.value = `/images/mine/background${bgRandom}.png`;
+    bgUrl.value = `/images/mine/background${nextId}.webp`;
+  }
 ```
 
 #### 网站图标
@@ -240,9 +245,3 @@ if (type == 0) {
 - [教书先生 API](https://api.oioweb.cn/doc/weather/GetWeather)
 - [高德开放平台](https://lbs.amap.com/)
 - [Hitokoto 一言](https://hitokoto.cn/)
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=imsyy/home&type=Date)](https://star-history.com/#imsyy/home&Date)
-
-<a title="SSL" target="_blank" href="https://myssl.com/seal/detail?domain=blog.imsyy.top"><img src="https://img.shields.io/badge/MySSL-安全认证-brightgreen"></a>&nbsp;<a title="CDN" target="_blank" href="https://cdnjs.com/"><img src="https://img.shields.io/badge/CDN-Cloudflare-blue"></a>&nbsp;<a title="Copyright" target="_blank" href="https://imsyy.top/"><img src="https://img.shields.io/badge/Copyright%20%C2%A9%202020--2023-%E7%84%A1%E5%90%8D-red"></a>

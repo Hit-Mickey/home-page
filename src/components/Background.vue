@@ -66,7 +66,7 @@ const changeBg = (type) => {
   if (type == 0) {
     const nextId = getBgRandom();
     // bgUrl.value = `/images/mine/background${bgRandom}.png`;
-    bgUrl.value = `/images/mine/background${nextId}.png`;
+    bgUrl.value = `/images/mine/background${nextId}.webp`;
   } else if (type == 1) {
     bgUrl.value = "https://api.dujin.org/bing/1920.php";
   } else if (type == 2) {
